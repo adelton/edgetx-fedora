@@ -1,8 +1,8 @@
 
 Summary: OpenTX Companion
 Name: opentx-companion
-Version: 2.0.2
-Release: 0.1%{?dist}
+Version: 2.0.5
+Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -68,6 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/icons/hicolor/*
 
 %changelog
+* Fri Jun 27 2014 Jan Pazdziora <jpx-opentx@adelton.com> - 2.0.5-1
+- Use 2.0.2.
+
 * Fri Jun 13 2014 Jan Pazdziora <jpx-opentx@adelton.com> - 2.0.2-0.1
 - Use 2.0.2.
 
