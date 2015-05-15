@@ -1,7 +1,7 @@
 
 Summary: OpenTX Companion
 Name: opentx-companion
-Version: 2.0.13
+Version: 2.0.17
 Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
