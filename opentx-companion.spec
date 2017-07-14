@@ -1,24 +1,14 @@
 
 Summary: OpenTX Companion
 Name: opentx-companion
-Version: 2.0.17
+Version: 2.1.9
 Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: cmake
-BuildRequires: gcc
-BuildRequires: gcc-c++
-BuildRequires: xerces-c-devel
-BuildRequires: xsd
-BuildRequires: SDL-devel
-BuildRequires: qt-devel
-BuildRequires: phonon-devel
-BuildRequires: PyQt4
-BuildRequires: avr-gcc
-BuildRequires: svn
-Requires: dfu-util
+BuildRequires: git svn qt qt-devel cmake patch xsd gcc-c++ SDL-devel phonon phonon-devel
+BuildRequires: xerces-c-devel PyQt4 python2 avr-gcc
 
 %description
 OpenTX Companion transmitter support software is used for many different
@@ -36,12 +26,12 @@ cmake ../src
 make clean
 make
 
-sed 's/companion/opentx-companion/' ../src/companion.desktop > opentx-companion.desktop
+sed 's/companion21/opentx-companion/' companion.desktop > opentx-companion.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/bin
-install -m 755 companion/lbuild/companion $RPM_BUILD_ROOT/usr/bin/opentx-companion
+install -m 755 companion/lbuild/companion21 $RPM_BUILD_ROOT/usr/bin/opentx-companion
 mkdir -p $RPM_BUILD_ROOT/etc/udev/rules.d
 install -m 644 companion/targets/linux/* $RPM_BUILD_ROOT/etc/udev/rules.d
 mkdir -p $RPM_BUILD_ROOT/usr/share/applications
@@ -68,6 +58,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/icons/hicolor/*
 
 %changelog
+* Fri Jul 14 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-1
+- Rebase to 2.1.9.
+
 * Fri Jun 27 2014 Jan Pazdziora <jpx-opentx@adelton.com> - 2.0.5-1
 - Use 2.0.2.
 
