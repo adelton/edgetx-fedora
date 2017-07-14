@@ -2,13 +2,14 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 Version: 2.1.9
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: git svn qt qt-devel cmake patch xsd gcc-c++ SDL-devel phonon phonon-devel
 BuildRequires: xerces-c-devel PyQt4 python2 avr-gcc
+Requires: dfu-util
 
 %description
 OpenTX Companion transmitter support software is used for many different
@@ -58,7 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/icons/hicolor/*
 
 %changelog
-* Fri Jul 14 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-1
+* Fri Jul 14 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-2
 - Rebase to 2.1.9.
 
 * Fri Jun 27 2014 Jan Pazdziora <jpx-opentx@adelton.com> - 2.0.5-1
