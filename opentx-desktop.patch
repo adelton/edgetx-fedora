@@ -1,0 +1,38 @@
+--- companion/src/companion.desktop.in
++++ companion/src/companion.desktop.in
+@@ -1,11 +1,10 @@
+ [Desktop Entry]
+ Type=Application
+-Encoding=UTF-8
+-Name=Companion @C9X_VERSION@
+-GenericName=Transmitter Companion App
+-Comment=The Ultimate Transmitter Companion
++Name=OpenTX Companion @C9X_VERSION@
++GenericName=Transmitter Companion
++Comment=OpenTX Transmitter Companion
+ Icon=@COMPANION_NAME@
+-Exec='@COMPANION_NAME@'
++Exec=@COMPANION_NAME@
+ Terminal=false
+ StartupNotify=false
+-Categories=Application
++Categories=Sports;Electronics;Emulator;Robotics;Qt;Science
+--- companion/src/simulator.desktop.in
++++ companion/src/simulator.desktop.in
+@@ -1,11 +1,10 @@
+ [Desktop Entry]
+ Type=Application
+-Encoding=UTF-8
+-Name=Simulator @C9X_VERSION@
+-GenericName=Transmitter Simulator App
+-Comment=The Ultimate Transmitter Simulator
++Name=OpenTX Simulator @C9X_VERSION@
++GenericName=Transmitter Simulator
++Comment=OpenTX Transmitter Simulator
+ Icon=@COMPANION_NAME@
+-Exec='@SIMULATOR_NAME@'
++Exec=@SIMULATOR_NAME@
+ Terminal=false
+ StartupNotify=false
+-Categories=Application
++Categories=Sports;Electronics;Emulator;Robotics;Qt;Science
