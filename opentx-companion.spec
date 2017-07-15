@@ -2,11 +2,11 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 Version: 2.1.9
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Patch1: opentx-cmake.patch
 BuildRequires: git svn qt qt-devel cmake patch xsd gcc-c++ SDL-devel phonon phonon-devel
 BuildRequires: xerces-c-devel PyQt4 python2 avr-gcc
 Requires: dfu-util
@@ -18,47 +18,31 @@ settings, editing settings and running radio simulators.
 
 %prep
 %setup -q -n opentx-%{version}
+%patch1
 
 %build
 rm -rf companion/lbuild
 mkdir companion/lbuild
 cd companion/lbuild
-cmake ../src
-make clean
-make
-
-sed 's/companion21/opentx-companion/' companion.desktop > opentx-companion.desktop
+%cmake ../src
+make %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/usr/bin
-install -m 755 companion/lbuild/companion21 $RPM_BUILD_ROOT/usr/bin/opentx-companion
-mkdir -p $RPM_BUILD_ROOT/etc/udev/rules.d
-install -m 644 companion/targets/linux/* $RPM_BUILD_ROOT/etc/udev/rules.d
-mkdir -p $RPM_BUILD_ROOT/usr/share/applications
-install -m 644 companion/lbuild/opentx-companion.desktop $RPM_BUILD_ROOT/usr/share/applications
-mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/16x16/apps
-install -m 644 companion/src/images/linuxicons/16x16/companion.png $RPM_BUILD_ROOT/usr/share/icons/hicolor/16x16/apps/opentx-companion.png
-mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/32x32/apps
-install -m 644 companion/src/images/linuxicons/32x32/companion.png $RPM_BUILD_ROOT/usr/share/icons/hicolor/32x32/apps/opentx-companion.png
-mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/128x128/apps
-install -m 644 companion/src/images/linuxicons/128x128/companion.png $RPM_BUILD_ROOT/usr/share/icons/hicolor/128x128/apps/opentx-companion.png
-mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/512x512/apps
-install -m 644 companion/src/images/linuxicons/512x512/companion.png $RPM_BUILD_ROOT/usr/share/icons/hicolor/512x512/apps/opentx-companion.png
-mkdir -p $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps
-install -m 644 companion/src/images/linuxicons/scalable/companion.svg $RPM_BUILD_ROOT/usr/share/icons/hicolor/scalable/apps/opentx-companion.svg
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+make -C companion/lbuild install DESTDIR=%{buildroot}
 
 %files
 %defattr(-,root,root,-)
-/usr/bin/opentx-companion
-/etc/udev/rules.d/*
-/usr/share/applications
-/usr/share/icons/hicolor/*
+%{_bindir}/opentx-companion
+%{_bindir}/opentx-simulator
+%{_libdir}/opentx-companion-21/
+%{_prefix}/lib/udev/rules.d/*
+%{_datadir}/applications/*
+%{_datadir}/icons/hicolor/*
 
 %changelog
+* Sat Jul 15 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-3
+- Drive the build and installation by cmake and macros more.
+
 * Fri Jul 14 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-2
 - Rebase to 2.1.9.
 
