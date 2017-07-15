@@ -2,7 +2,7 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 Version: 2.1.9
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -24,7 +24,7 @@ settings, editing settings and running radio simulators.
 rm -rf companion/lbuild
 mkdir companion/lbuild
 cd companion/lbuild
-%cmake ../src
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF ../src
 make %{?_smp_mflags}
 
 %install
@@ -40,7 +40,7 @@ make -C companion/lbuild install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
-* Sat Jul 15 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-3
+* Sat Jul 15 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-4
 - Drive the build and installation by cmake and macros more.
 
 * Fri Jul 14 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-2

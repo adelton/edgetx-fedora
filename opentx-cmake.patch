@@ -1,4 +1,4 @@
---- companion/src/CMakeLists.txt.orig	2017-07-15 04:56:25.301687250 +0000
+--- companion/src/CMakeLists.txt	2017-07-15 04:56:25.301687250 +0000
 +++ companion/src/CMakeLists.txt	2017-07-15 05:29:12.236568240 +0000
 @@ -14,9 +14,9 @@
  
@@ -18,7 +18,7 @@
    SET( PTHREAD_LIBRARY pthread )
    ADD_DEFINITIONS( -Wall )
 -  LINK_DIRECTORIES( /usr/local/lib )
-+  LINK_DIRECTORIES( ${LIB_INSTALL_DIR} )
++  LINK_DIRECTORIES( /usr/lib )
  ENDIF( )
  
  IF( MSVC )
