@@ -1,0 +1,181 @@
+commit 72dac3a89aa85528dde8199a4def20bce51ab9cd
+Author: Jan Pazdziora <jpx-opentx@adelton.com>
+Date:   Sat Jul 15 20:05:02 2017 +0200
+
+    Add option for spring-loaded (toggle) SF.
+
+diff --git a/companion/src/appdata.cpp b/companion/src/appdata.cpp
+index c9ad012a3..cd48cdb41 100644
+--- a/companion/src/appdata.cpp
++++ b/companion/src/appdata.cpp
+@@ -303,6 +303,7 @@ bool    Profile::penableBackup() const { return _penableBackup; }
+ bool    Profile::renameFwFiles() const { return _renameFwFiles; }
+ int     Profile::channelOrder()  const { return _channelOrder;  }
+ int     Profile::defaultMode()   const { return _defaultMode;   }
++bool    Profile::springSF()      const { return _springSF;      }
+ 
+ QString Profile::beeper()        const { return _beeper;        }
+ QString Profile::countryCode()   const { return _countryCode;   }
+@@ -335,6 +336,7 @@ void Profile::renameFwFiles (const bool    x) { store(x, _renameFwFiles, "rename
+ void Profile::penableBackup (const bool    x) { store(x, _penableBackup, "penableBackup"         ,"Profiles", QString("profile%1").arg(index));}
+ void Profile::channelOrder  (const int     x) { store(x, _channelOrder,  "default_channel_order" ,"Profiles", QString("profile%1").arg(index));}
+ void Profile::defaultMode   (const int     x) { store(x, _defaultMode,   "default_mode"          ,"Profiles", QString("profile%1").arg(index));}
++void Profile::springSF      (const bool    x) { store(x, _springSF,      "spring_SF"             ,"Profiles", QString("profile%1").arg(index));}
+ 
+ void Profile::beeper        (const QString x) { store(x, _beeper,        "Beeper"                ,"Profiles", QString("profile%1").arg(index));}
+ void Profile::countryCode   (const QString x) { store(x, _countryCode,   "countryCode"           ,"Profiles", QString("profile%1").arg(index));}
+@@ -371,6 +373,7 @@ Profile& Profile::operator=(const Profile& rhs)
+     pBackupDir   ( rhs.pBackupDir()    );
+     splashFile   ( rhs.splashFile()    );
+     burnFirmware ( rhs.burnFirmware()  );
++    springSF     ( rhs.springSF()      );
+     renameFwFiles( rhs.renameFwFiles() );
+     penableBackup( rhs.penableBackup() );
+     channelOrder ( rhs.channelOrder()  );
+@@ -457,6 +460,7 @@ void Profile::init(int newIndex)
+     _penableBackup = false;
+     _channelOrder =  0;
+     _defaultMode =   1;
++    _springSF =      false;
+ 
+     initFwVariables();
+ 
+@@ -482,6 +486,7 @@ void Profile::flush()
+     getset( _renameFwFiles, "rename_firmware_files" ,false  ,"Profiles", QString("profile%1").arg(index));
+     getset( _channelOrder,  "default_channel_order" ,0      ,"Profiles", QString("profile%1").arg(index));
+     getset( _defaultMode,   "default_mode"          ,1      ,"Profiles", QString("profile%1").arg(index));
++    getset( _springSF,      "spring_SF"             ,false  ,"Profiles", QString("profile%1").arg(index));
+ 
+     getset( _beeper,        "Beeper"                ,""     ,"Profiles", QString("profile%1").arg(index));
+     getset( _countryCode,   "countryCode"           ,""     ,"Profiles", QString("profile%1").arg(index));
+diff --git a/companion/src/appdata.h b/companion/src/appdata.h
+index 49fdc580f..037bb9e3d 100644
+--- a/companion/src/appdata.h
++++ b/companion/src/appdata.h
+@@ -115,6 +115,7 @@ class Profile: protected CompStoreObj
+     bool    _renameFwFiles;
+     int     _channelOrder;
+     int     _defaultMode;
++    bool    _springSF;
+ 
+     // Firmware Variables
+     QString _beeper;
+@@ -149,6 +150,7 @@ class Profile: protected CompStoreObj
+     bool    penableBackup() const;
+     int     channelOrder() const;
+     int     defaultMode() const;
++    bool    springSF() const;
+ 
+     QString beeper() const;
+     QString countryCode() const;
+@@ -181,6 +183,7 @@ class Profile: protected CompStoreObj
+     void penableBackup (const bool);
+     void channelOrder  (const int);
+     void defaultMode   (const int);
++    void springSF      (const bool);
+ 
+     void beeper        (const QString);
+     void countryCode   (const QString);
+diff --git a/companion/src/apppreferencesdialog.cpp b/companion/src/apppreferencesdialog.cpp
+index 0b0ff1b63..46d1b37b6 100644
+--- a/companion/src/apppreferencesdialog.cpp
++++ b/companion/src/apppreferencesdialog.cpp
+@@ -68,6 +68,7 @@ void AppPreferencesDialog::writeValues()
+   g.profile[g.id()].defaultMode(ui->stickmodeCB->currentIndex());
+   g.profile[g.id()].renameFwFiles(ui->renameFirmware->isChecked());
+   g.profile[g.id()].burnFirmware(ui->burnFirmware->isChecked());
++  g.profile[g.id()].springSF(ui->springSF->isChecked());
+   g.profile[g.id()].sdPath(ui->sdPath->text());
+   g.profile[g.id()].pBackupDir(ui->profilebackupPath->text());
+   g.profile[g.id()].penableBackup(ui->pbackupEnable->isChecked());
+@@ -103,6 +104,7 @@ void AppPreferencesDialog::initSettings()
+ {
+   ui->snapshotClipboardCKB->setChecked(g.snapToClpbrd());
+   ui->burnFirmware->setChecked(g.profile[g.id()].burnFirmware());
++  ui->springSF->setChecked(g.profile[g.id()].springSF());
+   ui->snapshotPath->setText(g.snapshotDir());
+   ui->snapshotPath->setReadOnly(true);
+   if (ui->snapshotClipboardCKB->isChecked()) {
+diff --git a/companion/src/apppreferencesdialog.ui b/companion/src/apppreferencesdialog.ui
+index 7975a3253..528ef52fc 100644
+--- a/companion/src/apppreferencesdialog.ui
++++ b/companion/src/apppreferencesdialog.ui
+@@ -590,7 +590,30 @@ Mode 4:
+          </property>
+         </widget>
+        </item>
++       <item row="18" column="0">
++        <widget class="QLabel" name="label_springSF">
++         <property name="sizePolicy">
++          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
++           <horstretch>0</horstretch>
++           <verstretch>0</verstretch>
++          </sizepolicy>
++         </property>
++         <property name="text">
++          <string>SF switch</string>
++         </property>
++         <property name="alignment">
++          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
++         </property>
++        </widget>
++       </item>
+        <item row="18" column="1">
++        <widget class="QCheckBox" name="springSF">
++         <property name="text">
++          <string>Spring loaded (toggle)</string>
++         </property>
++        </widget>
++       </item>
++       <item row="19" column="1">
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+@@ -1123,6 +1146,7 @@ Mode 4:
+   <tabstop>channelorderCB</tabstop>
+   <tabstop>renameFirmware</tabstop>
+   <tabstop>burnFirmware</tabstop>
++  <tabstop>springSF</tabstop>
+   <tabstop>ge_lineedit</tabstop>
+   <tabstop>ge_pathButton</tabstop>
+   <tabstop>historySize</tabstop>
+diff --git a/companion/src/simulation/simulatordialog.cpp b/companion/src/simulation/simulatordialog.cpp
+index 69adc925e..f0641e032 100644
+--- a/companion/src/simulation/simulatordialog.cpp
++++ b/companion/src/simulation/simulatordialog.cpp
+@@ -832,11 +832,22 @@ void SimulatorDialog9X::restoreSwitches(void)
+   ui->switchTHR->setChecked(switchstatus & 0x1);
+ }
+ 
++void SimulatorDialogTaranis::resetSF()
++{
++  ui->switchF->setValue(0);
++}
+ void SimulatorDialogTaranis::resetSH()
+ {
+   ui->switchH->setValue(0);
+ }
+ 
++void SimulatorDialogTaranis::on_switchF_sliderReleased()
++{
++  if (g.profile[g.id()].springSF()) {
++    QTimer::singleShot(400, this, SLOT(resetSF()));
++  }
++}
++
+ void SimulatorDialogTaranis::on_switchH_sliderReleased()
+ {
+   QTimer::singleShot(400, this, SLOT(resetSH()));
+diff --git a/companion/src/simulation/simulatordialog.h b/companion/src/simulation/simulatordialog.h
+index dbb02b245..a596cf7df 100644
+--- a/companion/src/simulation/simulatordialog.h
++++ b/companion/src/simulation/simulatordialog.h
+@@ -202,6 +202,8 @@ class SimulatorDialogTaranis: public SimulatorDialog
+     static uint32_t switchstatus;
+ 
+   private slots:
++    void resetSF();
++    void on_switchF_sliderReleased();
+     void resetSH();
+     void on_switchH_sliderReleased();
+ };

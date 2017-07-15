@@ -7,12 +7,13 @@ Name: opentx-companion
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Version: 2.1.10
-Release: git_%{shortcommit0}.3%{?dist}
+Release: git_%{shortcommit0}.4%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{commit0}.tar.gz#/opentx-%{shortcommit0}.tar.gz
 Patch1: opentx-cmake.patch
 Patch2: opentx-desktop.patch
+Patch3: opentx-springSF.patch
 BuildRequires: git svn qt qt-devel cmake patch xsd gcc-c++ SDL-devel phonon phonon-devel
 BuildRequires: xerces-c-devel PyQt4 python2 avr-gcc
 Requires: dfu-util
@@ -26,6 +27,7 @@ settings, editing settings and running radio simulators.
 %setup -n opentx-%{commit0}
 %patch1
 %patch2
+%patch3 -p1
 
 %build
 rm -rf companion/lbuild
