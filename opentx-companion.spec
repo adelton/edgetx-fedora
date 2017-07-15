@@ -1,11 +1,16 @@
 
 Summary: OpenTX Companion
 Name: opentx-companion
-Version: 2.1.9
-Release: 4%{?dist}
+
+%global branch0 2.1
+%global commit0 45dc76bf4be111a01d680eefe30be213daba95ce
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+
+Version: 2.1.10
+Release: git_%{shortcommit0}.1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
-Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
+Source0: https://github.com/opentx/opentx/archive/%{commit0}.tar.gz#/opentx-%{shortcommit0}.tar.gz
 Patch1: opentx-cmake.patch
 BuildRequires: git svn qt qt-devel cmake patch xsd gcc-c++ SDL-devel phonon phonon-devel
 BuildRequires: xerces-c-devel PyQt4 python2 avr-gcc
@@ -17,7 +22,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%setup -q -n opentx-%{version}
+%setup -n opentx-%{commit0}
 %patch1
 
 %build
@@ -40,6 +45,9 @@ make -C companion/lbuild install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Sat Jul 15 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.10-*
+- WIP.
+
 * Sat Jul 15 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.1.9-4
 - Drive the build and installation by cmake and macros more.
 
