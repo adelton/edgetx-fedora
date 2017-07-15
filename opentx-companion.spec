@@ -7,7 +7,7 @@ Name: opentx-companion
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Version: 2.1.10
-Release: git_%{shortcommit0}.2%{?dist}
+Release: git_%{shortcommit0}.3%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{commit0}.tar.gz#/opentx-%{shortcommit0}.tar.gz
