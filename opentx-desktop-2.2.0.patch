@@ -1,0 +1,38 @@
+diff --git a/companion/src/companion.desktop.in b/companion/src/companion.desktop.in
+index 58614f40f..98016459e 100644
+--- a/companion/src/companion.desktop.in
++++ b/companion/src/companion.desktop.in
+@@ -1,11 +1,10 @@
+ [Desktop Entry]
+ Type=Application
+-Encoding=UTF-8
+-Name=Companion @VERSION@
++Name=OpenTX Companion @VERSION@
+ GenericName=Transmitter Companion App
+ Comment=The Ultimate Transmitter Companion
+ Icon=@COMPANION_NAME@
+-Exec='@COMPANION_NAME@'
++Exec=@COMPANION_NAME@
+ Terminal=false
+ StartupNotify=false
+-Categories=Application
++Categories=Sports;Electronics;Emulator;Robotics;Qt;Science
+diff --git a/companion/src/simulator.desktop.in b/companion/src/simulator.desktop.in
+index c5715ac24..6927db600 100644
+--- a/companion/src/simulator.desktop.in
++++ b/companion/src/simulator.desktop.in
+@@ -1,11 +1,10 @@
+ [Desktop Entry]
+ Type=Application
+-Encoding=UTF-8
+-Name=Simulator @VERSION@
++Name=OpenTX Simulator @VERSION@
+ GenericName=Transmitter Simulator App
+ Comment=The Ultimate Transmitter Simulator
+ Icon=@COMPANION_NAME@
+-Exec='@SIMULATOR_NAME@'
++Exec=@SIMULATOR_NAME@
+ Terminal=false
+ StartupNotify=false
+-Categories=Application
++Categories=Sports;Electronics;Emulator;Robotics;Qt;Science
