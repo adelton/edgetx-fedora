@@ -2,12 +2,15 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-Version: 2.2.0
-Release: 1%{?dist}
+%global commit0 42cbc56880c9aba41657a5fd2524363911a48ae1
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+
+Version: 2.2.1
+Release: git_%{shortcommit0}.1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
-Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
-Patch1: opentx-cmake-2.2.0.patch
+Source0: https://github.com/opentx/opentx/archive/%{commit0}.tar.gz#/opentx-%{shortcommit0}.tar.gz
+Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
 
 BuildRequires: cmake
@@ -26,7 +29,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%setup -n opentx-%{version}
+%setup -n opentx-%{commit0}
 %patch1 -p1
 %patch2 -p1
 
@@ -51,6 +54,9 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Sun Aug 20 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.1-*
+- Rebase to 2.2 master.
+
 * Sat Aug 19 2017 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.0-1
 - Rebase to 2.2.0.
 

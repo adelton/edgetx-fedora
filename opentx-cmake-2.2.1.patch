@@ -1,5 +1,5 @@
 diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
-index e0b4ed601..a0f8396d8 100644
+index 20a6c0ea9..e0bb59536 100644
 --- a/companion/src/CMakeLists.txt
 +++ b/companion/src/CMakeLists.txt
 @@ -2,15 +2,15 @@ set(SIMULATOR_INSTALL_PREFIX "" CACHE STRING "Alternative simulator library sear
@@ -22,7 +22,7 @@ index e0b4ed601..a0f8396d8 100644
  else()
    set(COMPANION_NAME "companion")
    set(SIMULATOR_NAME "simulator")
-@@ -90,7 +90,7 @@ if(WIN32)
+@@ -91,7 +91,7 @@ if(WIN32)
    endif()
  else()
    set(PTHREAD_LIBRARY pthread)
@@ -31,7 +31,7 @@ index e0b4ed601..a0f8396d8 100644
  endif()
  
  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
-@@ -334,22 +334,22 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+@@ -335,23 +335,23 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
    install(TARGETS ${COMPANION_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
    install(TARGETS ${SIMULATOR_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
    install(FILES ${simulator_plugins} DESTINATION "${SIMULATOR_LIB_INSTALL_PATH}")
@@ -53,6 +53,7 @@ index e0b4ed601..a0f8396d8 100644
 -  install(FILES images/linuxicons/512x512/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/512x512/apps RENAME companion${C9X_NAME_SUFFIX}.png)
 -  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/scalable/apps RENAME companion${C9X_NAME_SUFFIX}.svg)
 -  install(FILES ../targets/linux/45-companion-taranis.rules DESTINATION ${INSTALL_TEMP_LIB_PFX}lib/udev/rules.d RENAME 45-companion${C9X_NAME_SUFFIX}-taranis.rules)
+-  install(FILES ../targets/linux/45-usbasp.rules DESTINATION ${INSTALL_TEMP_LIB_PFX}lib/udev/rules.d RENAME 45-companion${C9X_NAME_SUFFIX}-usbasp.rules)
 +  install(FILES images/linuxicons/16x16/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/16x16/apps RENAME ${COMPANION_NAME}.png)
 +  install(FILES images/linuxicons/22x22/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/22x22/apps RENAME ${COMPANION_NAME}.png)
 +  install(FILES images/linuxicons/24x24/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/24x24/apps RENAME ${COMPANION_NAME}.png)
@@ -63,6 +64,7 @@ index e0b4ed601..a0f8396d8 100644
 +  install(FILES images/linuxicons/512x512/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/512x512/apps RENAME ${COMPANION_NAME}.png)
 +  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/scalable/apps RENAME ${COMPANION_NAME}.svg)
 +  install(FILES ../targets/linux/45-companion-taranis.rules DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/udev/rules.d RENAME 45-${COMPANION_NAME}-taranis.rules)
++  install(FILES ../targets/linux/45-usbasp.rules DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/udev/rules.d RENAME 45-${COMPANION_NAME}-usbasp.rules)
    # Linux specific code
    set(OperatingSystem "Linux")
  
