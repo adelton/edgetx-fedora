@@ -2,15 +2,11 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-%global branch0 2.2
-%global commit0 85863358fbdccf06896eab6663d6f0e9259a07ce
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-
 Version: 2.2.0
-Release: git_%{shortcommit0}.1%{?dist}
+Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
-Source0: https://github.com/opentx/opentx/archive/%{commit0}.tar.gz#/opentx-%{shortcommit0}.tar.gz
+Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
 Patch1: opentx-cmake-2.2.0.patch
 Patch2: opentx-desktop-2.2.0.patch
 
@@ -30,7 +26,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%setup -n opentx-%{commit0}
+%setup -n opentx-%{version}
 %patch1 -p1
 %patch2 -p1
 
