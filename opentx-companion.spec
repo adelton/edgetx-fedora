@@ -2,7 +2,7 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-Version: 2.2.1
+Version: 2.2.2
 Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
@@ -18,7 +18,7 @@ BuildRequires: fox-devel
 BuildRequires: SDL-devel
 BuildRequires: arm-none-eabi-gcc-cs-c++
 BuildRequires: arm-none-eabi-newlib
-BuildRequires: python3-qt5
+BuildRequires: python3-pillow
 Requires: dfu-util
 
 %description
@@ -52,6 +52,9 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Sun Sep 30 2018 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.2-1
+- Rebase to 2.2.2 release.
+
 * Sun Sep 30 2018 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.1-1
 - Rebase to 2.2.1 release.
 
