@@ -9,6 +9,7 @@ URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
 Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
+Patch3: opentx-gcc-9.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -30,6 +31,7 @@ settings, editing settings and running radio simulators.
 %setup -n opentx-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 rm -rf build-taranis-debug
@@ -53,6 +55,7 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 
 %changelog
 * Fri Jul 12 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.3-1
+- Address compile errors on Fedora 30+.
 - Rebase to 2.2.3 release.
 
 * Sun Sep 30 2018 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.2-1
