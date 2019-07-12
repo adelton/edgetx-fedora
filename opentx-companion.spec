@@ -2,7 +2,7 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-Version: 2.2.3
+Version: 2.2.4
 Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
@@ -54,7 +54,10 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
-* Fri Jul 12 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.3-1
+* Fri Jul 12 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.4-1
+- Rebase to 2.2.3 release.
+
+* Fri Jul 12 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.4-1
 - Address compile errors on Fedora 30+.
 - Rebase to 2.2.3 release.
 
