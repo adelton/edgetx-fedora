@@ -55,9 +55,9 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 
 %changelog
 * Fri Jul 12 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.4-1
-- Rebase to 2.2.3 release.
+- Rebase to 2.2.4 release.
 
-* Fri Jul 12 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.4-1
+* Fri Jul 12 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.3-1
 - Address compile errors on Fedora 30+.
 - Rebase to 2.2.3 release.
 
@@ -80,7 +80,7 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 - Rebase to 2.1.9.
 
 * Fri Jun 27 2014 Jan Pazdziora <jpx-opentx@adelton.com> - 2.0.5-1
-- Use 2.0.2.
+- Use 2.0.5.
 
 * Fri Jun 13 2014 Jan Pazdziora <jpx-opentx@adelton.com> - 2.0.2-0.1
 - Use 2.0.2.
