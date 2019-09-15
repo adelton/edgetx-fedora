@@ -2,14 +2,13 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-Version: 2.2.4
-Release: 1%{?dist}
+Version: 2.3.0
+Release: RC3.1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
-Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
+Source0: https://github.com/opentx/opentx/archive/2.3.0-RC3.tar.gz#/opentx-%{version}.tar.gz
 Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
-Patch3: opentx-gcc-9.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -28,10 +27,9 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%setup -n opentx-%{version}
+%setup -n opentx-%{version}-RC3
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 rm -rf build-taranis-debug
@@ -48,12 +46,15 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 %defattr(-,root,root,-)
 %{_bindir}/opentx-companion
 %{_bindir}/opentx-simulator
-%{_libdir}/opentx-companion-22/
+%{_libdir}/opentx-companion-23/
 %{_prefix}/lib/udev/rules.d/*
 %{_datadir}/applications/*
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Sun Sep 15 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.0-RC3.1
+- Test build of 2.3.0-RC3.
+
 * Fri Jul 12 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.2.4-1
 - Rebase to 2.2.4 release.
 
