@@ -3,7 +3,7 @@ Summary: OpenTX Companion
 Name: opentx-companion
 
 Version: 2.3.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -19,6 +19,7 @@ BuildRequires: SDL-devel
 BuildRequires: arm-none-eabi-gcc-cs-c++
 BuildRequires: arm-none-eabi-newlib
 BuildRequires: python3-pillow
+BuildRequires: llvm-googletest
 Requires: dfu-util
 
 %description
@@ -35,7 +36,7 @@ settings, editing settings and running radio simulators.
 rm -rf build-taranis-debug
 mkdir build-taranis-debug
 cd build-taranis-debug
-%cmake -DPCB=X9D+ -DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF ../
+%cmake -DPCB=X9D+ -DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest ../
 make %{?_smp_mflags} opentx-companion
 make %{?_smp_mflags} opentx-simulator
 
@@ -52,7 +53,7 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
-* Sat Nov 16 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.2-1
+* Sat Nov 16 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.2-2
 - Rebase to 2.3.2.
 
 * Sat Oct 05 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.1-1
