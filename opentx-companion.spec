@@ -2,11 +2,11 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-Version: 2.3.4
+Version: 2.3.5
 Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
-Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
+Source0: https://github.com/opentx/opentx/archive/%{version}.tar.gz#/opentx-%{version}.tar.gz
 Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
 
@@ -28,7 +28,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%setup -n opentx-release-%{version}
+%setup -n opentx-%{version}
 %patch1 -p1
 %patch2 -p1
 
@@ -53,6 +53,9 @@ make -C build-taranis-debug install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Sun Jan 19 2020 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.5-1
+- Rebase to 2.3.5.
+
 * Fri Dec 27 2019 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.4-1
 - Rebase to 2.3.4.
 
