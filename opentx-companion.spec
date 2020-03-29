@@ -37,8 +37,8 @@ rm -rf build-taranis-debug
 mkdir build-taranis-debug
 cd build-taranis-debug
 %cmake -DPCB=X9D+ -DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest ../
-make %{?_smp_mflags} opentx-companion
-make %{?_smp_mflags} opentx-simulator
+%make_build opentx-companion
+%make_build opentx-simulator
 
 %install
 make -C build-taranis-debug install DESTDIR=%{buildroot}
