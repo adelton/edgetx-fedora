@@ -3,7 +3,7 @@ Summary: OpenTX Companion
 Name: opentx-companion
 
 Version: 2.3.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -33,15 +33,16 @@ settings, editing settings and running radio simulators.
 %patch2 -p1
 
 %build
-rm -rf build-taranis-debug
-mkdir build-taranis-debug
-cd build-taranis-debug
-%cmake -DPCB=X9D+ -DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest ../
+rm -rf build-debug
+mkdir build-debug
+cd build-debug
+%cmake -DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest ../
 %make_build opentx-companion
 %make_build opentx-simulator
+%make_build all-simu-libs
 
 %install
-make -C build-taranis-debug install DESTDIR=%{buildroot}
+make -C build-debug install DESTDIR=%{buildroot}
 
 %files
 %defattr(-,root,root,-)
