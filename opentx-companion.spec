@@ -7,8 +7,11 @@ Release: 2%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
+Source1: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash4.lbm
+Source2: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash8.lbm
 Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
+Patch3: opentx-OpenRcBootloader-local.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -31,10 +34,12 @@ settings, editing settings and running radio simulators.
 %setup -n opentx-release-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+rm -rf build-debug
+mkdir -p build-debug/radio/src
+cp %SOURCE1 %SOURCE2 build-debug/radio/src/
 
 %build
-rm -rf build-debug
-mkdir build-debug
 cd build-debug
 %cmake -DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest ../
 %make_build opentx-companion
