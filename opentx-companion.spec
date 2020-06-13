@@ -2,8 +2,8 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-Version: 2.3.7
-Release: 3%{?dist}
+Version: 2.3.8
+Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -62,6 +62,9 @@ make -C build-debug install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Sat Jun 13 2020 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.8-1
+- Rebase to 2.3.8.
+
 * Sat Apr 18 2020 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.7-3
 - Enable building simulator of Jumper T16.
 
