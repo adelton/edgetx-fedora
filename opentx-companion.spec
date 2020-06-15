@@ -2,7 +2,7 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-Version: 2.3.8
+Version: 2.3.9
 Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
@@ -62,6 +62,9 @@ make -C build-debug install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Mon Jun 15 2020 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.9-1
+- Rebase to 2.3.9.
+
 * Sat Jun 13 2020 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.8-1
 - Rebase to 2.3.8.
 
