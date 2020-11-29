@@ -3,7 +3,7 @@ Summary: OpenTX Companion
 Name: opentx-companion
 
 Version: 2.3.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -42,6 +42,7 @@ cp %SOURCE1 %SOURCE2 build-debug/radio/src/
 %build
 cd build-debug
 CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
+%define __cmake_in_source_build 1
 %cmake $CMAKE_OPTS ../
 %make_build opentx-companion
 %make_build opentx-simulator
