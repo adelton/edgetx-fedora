@@ -1,0 +1,19 @@
+commit 1e09791a1e2fe2a0ca9835019d634a4c6a4fa3bf
+Author: 3djc <lesitewebdejc@hotmail.com>
+Date:   Fri Jul 23 16:59:08 2021 +0200
+
+    Release 2.3.14
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f60d8baf0..ace85f3fe 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,7 +2,7 @@ project(OpenTX)
+ 
+ set(VERSION_MAJOR "2")
+ set(VERSION_MINOR "3")
+-set(VERSION_REVISION "13")
++set(VERSION_REVISION "14")
+ if(TEST_BUILD_WARNING OR ALLOW_NIGHTLY_BUILDS)
+   math(EXPR VERSION_REVISION "${VERSION_REVISION} + 1")
+ endif()

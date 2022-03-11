@@ -3,7 +3,7 @@ Summary: OpenTX Companion
 Name: opentx-companion
 
 Version: 2.3.14
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -12,6 +12,7 @@ Source2: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bo
 Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
 Patch3: opentx-OpenRcBootloader-local.patch
+Patch4: opentx-2.3.14-release.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -35,6 +36,7 @@ settings, editing settings and running radio simulators.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 rm -rf build-debug
 mkdir -p build-debug/radio/src
 cp %SOURCE1 %SOURCE2 build-debug/radio/src/
@@ -63,6 +65,9 @@ make -C build-debug install DESTDIR=%{buildroot}
 %{_datadir}/icons/hicolor/*
 
 %changelog
+* Fri Mar 11 2022 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.14-2
+- Include missing update of the revision to 2.3.14.
+
 * Sat Jul 24 2021 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.14-1
 - Rebase to 2.3.14.
 
