@@ -1,28 +1,27 @@
 diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
-index 20a6c0ea9..e0bb59536 100644
---- a/companion/src/CMakeLists.txt
-+++ b/companion/src/CMakeLists.txt
-@@ -2,15 +2,15 @@ set(SIMULATOR_INSTALL_PREFIX "" CACHE STRING "Alternative simulator library sear
+--- a/companion/src/CMakeLists.txt	2021-10-15 10:40:51.000000000 +0000
++++ b/companion/src/CMakeLists.txt	2022-03-11 17:18:20.200399300 +0000
+@@ -2,15 +2,15 @@
  
  if(${CMAKE_SYSTEM_NAME} MATCHES "(Linux|FreeBSD)")
    set(C9X_NAME_SUFFIX ${VERSION_MAJOR}${VERSION_MINOR})
 -  set(COMPANION_NAME "companion${C9X_NAME_SUFFIX}")
 -  set(SIMULATOR_NAME "simulator${C9X_NAME_SUFFIX}")
-+  SET(COMPANION_NAME "opentx-companion")
-+  SET(SIMULATOR_NAME "opentx-simulator")
++  SET(COMPANION_NAME "edgetx-companion")
++  SET(SIMULATOR_NAME "edgetx-simulator")
    if (NOT ${SIMULATOR_INSTALL_PREFIX} STREQUAL "")
-     set(SIMULATOR_LIB_PATH ${SIMULATOR_INSTALL_PREFIX}/lib/companion${C9X_NAME_SUFFIX})
+     set(SIMULATOR_LIB_PATH ${SIMULATOR_INSTALL_PREFIX}/lib/${COMPANION_NAME})
    else()
--    set(SIMULATOR_LIB_PATH ${CMAKE_INSTALL_PREFIX}/lib/companion${C9X_NAME_SUFFIX})
+-    set(SIMULATOR_LIB_PATH "../lib/${COMPANION_NAME}")
 +    set(SIMULATOR_LIB_PATH ${LIB_INSTALL_DIR}/${COMPANION_NAME}-${C9X_NAME_SUFFIX})
    endif()
    message(STATUS "Simulators library search path: " ${SIMULATOR_LIB_PATH})
--  set(SIMULATOR_LIB_INSTALL_PATH ${CMAKE_INSTALL_PREFIX}/lib/companion${C9X_NAME_SUFFIX})
+-  set(SIMULATOR_LIB_INSTALL_PATH ${CMAKE_INSTALL_PREFIX}/lib/${COMPANION_NAME})
 +  set(SIMULATOR_LIB_INSTALL_PATH ${LIB_INSTALL_DIR}/${COMPANION_NAME}-${C9X_NAME_SUFFIX})
  else()
    set(COMPANION_NAME "companion")
    set(SIMULATOR_NAME "simulator")
-@@ -91,7 +91,7 @@ if(WIN32)
+@@ -78,7 +78,7 @@
    endif()
  else()
    set(PTHREAD_LIBRARY pthread)
@@ -31,14 +30,14 @@ index 20a6c0ea9..e0bb59536 100644
  endif()
  
  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
-@@ -335,23 +335,23 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+@@ -354,23 +354,23 @@
    install(TARGETS ${COMPANION_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
    install(TARGETS ${SIMULATOR_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
    install(FILES ${simulator_plugins} DESTINATION "${SIMULATOR_LIB_INSTALL_PATH}")
 -  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION share/applications RENAME companion${C9X_NAME_SUFFIX}.desktop)
 -  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/simulator.desktop DESTINATION share/applications RENAME simulator${C9X_NAME_SUFFIX}.desktop)
-+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION share/applications RENAME opentx-companion${C9X_NAME_SUFFIX}.desktop)
-+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/simulator.desktop DESTINATION share/applications RENAME opentx-simulator${C9X_NAME_SUFFIX}.desktop)
++  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION share/applications RENAME edgetx-companion${C9X_NAME_SUFFIX}.desktop)
++  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/simulator.desktop DESTINATION share/applications RENAME edgetx-simulator${C9X_NAME_SUFFIX}.desktop)
    if(${CMAKE_INSTALL_PREFIX} MATCHES "/usr/local")
      set(INSTALL_TEMP_SHR_PFX "/usr/")
      set(INSTALL_TEMP_LIB_PFX "/")
@@ -62,9 +61,9 @@ index 20a6c0ea9..e0bb59536 100644
 +  install(FILES images/linuxicons/128x128/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/128x128/apps RENAME ${COMPANION_NAME}.png)
 +  install(FILES images/linuxicons/256x256/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/256x256/apps RENAME ${COMPANION_NAME}.png)
 +  install(FILES images/linuxicons/512x512/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/512x512/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/scalable/apps RENAME ${COMPANION_NAME}.svg)
-+  install(FILES ../targets/linux/45-companion-taranis.rules DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/udev/rules.d RENAME 45-${COMPANION_NAME}-taranis.rules)
-+  install(FILES ../targets/linux/45-usbasp.rules DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/udev/rules.d RENAME 45-${COMPANION_NAME}-usbasp.rules)
++  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/scalable/apps RENAME ${COMPANION_NAME}.png)
++  install(FILES ../targets/linux/45-companion-taranis.rules DESTINATION ${INSTALL_TEMP_LIB_PFX}lib/udev/rules.d RENAME 45-${COMPANION_NAME}-taranis.rules)
++  install(FILES ../targets/linux/45-usbasp.rules DESTINATION ${INSTALL_TEMP_LIB_PFX}lib/udev/rules.d RENAME 45-${COMPANION_NAME}-usbasp.rules)
    # Linux specific code
    set(OperatingSystem "Linux")
- 
+ elseif(WIN32)

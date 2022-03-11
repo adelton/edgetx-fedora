@@ -1,0 +1,24 @@
+diff --git a/companion/src/companion.desktop.in b/companion/src/companion.desktop.in
+--- a/companion/src/companion.desktop.in	2021-10-15 10:40:51.000000000 +0000
++++ b/companion/src/companion.desktop.in	2022-03-11 17:25:12.416025242 +0000
+@@ -7,4 +7,4 @@
+ Exec=@COMPANION_NAME@
+ Terminal=false
+ StartupNotify=false
+-Categories=Application;
++Categories=Sports;Electronics;Emulator;Robotics;Qt;Science
+--- a/companion/src/simulator.desktop.in	2021-10-15 10:40:51.000000000 +0000
++++ b/companion/src/simulator.desktop.in	2022-03-11 17:26:41.982157626 +0000
+@@ -1,10 +1,10 @@
+ [Desktop Entry]
+ Type=Application
+-Name=Simulator @VERSION@
++Name=EdgeTX Simulator @VERSION@
+ GenericName=Transmitter Simulator App
+ Comment=The Ultimate Transmitter Simulator
+ Icon=@COMPANION_NAME@
+ Exec=@SIMULATOR_NAME@
+ Terminal=false
+ StartupNotify=false
+-Categories=Application;
++Categories=Sports;Electronics;Emulator;Robotics;Qt;Science

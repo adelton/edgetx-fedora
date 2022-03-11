@@ -1,9 +1,8 @@
 diff --git a/radio/src/CMakeLists.txt b/radio/src/CMakeLists.txt
-index 20852450c..99c823c01 100644
---- a/radio/src/CMakeLists.txt
-+++ b/radio/src/CMakeLists.txt
-@@ -504,7 +504,7 @@ if(NOT MSVC)
-     elseif(OPENRC_BOOTLOADER)
+--- a/radio/src/CMakeLists.txt	2021-10-15 10:40:51.000000000 +0000
++++ b/radio/src/CMakeLists.txt	2022-03-11 17:31:21.353570483 +0000
+@@ -603,7 +603,7 @@
+     if(OPENRC_BOOTLOADER)
        # We fetch Mike's bootloader as it is not included inside OpenTX
        message(STATUS "Downloading Mike's bootloader: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/${OPENRC_BOOTLOADER}")
 -      file(DOWNLOAD https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/${OPENRC_BOOTLOADER} ${CMAKE_CURRENT_BINARY_DIR}/bootloader.lbm STATUS status)

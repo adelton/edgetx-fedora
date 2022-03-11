@@ -1,18 +1,20 @@
 
-Summary: OpenTX Companion
-Name: opentx-companion
+Summary: EdgeTX Companion
+Name: edgetx-companion
 
-Version: 2.3.14
-Release: 3%{?dist}
+Version: 2.5.0
+Release: 1%{?dist}
 License: GPLv2
-URL: http://www.open-tx.org
-Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
+URL: https://edgetx.org/
+Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
 Source1: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash4.lbm
 Source2: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash8.lbm
-Patch1: opentx-cmake-2.2.1.patch
-Patch2: opentx-desktop-2.2.0.patch
-Patch3: opentx-OpenRcBootloader-local.patch
-Patch4: opentx-2.3.14-release.patch
+Source11: https://github.com/EdgeTX/libopenui/archive/0c3d3cde54a032c699b01c50a4c552a13e210a06.tar.gz#/libopenui-0c3d3cde.tar.gz
+Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
+Patch1: edgetx-cmake.patch
+Patch2: edgetx-desktop.patch
+Patch3: edgetx-OpenRcBootloader-local.patch
+Patch4: edgetx-disable-appimage.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -32,12 +34,14 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%setup -n opentx-release-%{version}
+%setup -n edgetx-%{version}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-mkdir -p %{_vpath_builddir}/radio/src/
+( cd radio/src/thirdparty && tar xvzf %SOURCE11 && rmdir libopenui && ln -s libopenui-* libopenui )
+( cd radio/src/thirdparty/libopenui/src/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
+mkdir -p %{_vpath_builddir}/radio/src
 cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
 
 %set_build_flags
@@ -58,8 +62,8 @@ chmod a+x bin/*
 %build
 CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
 %cmake $CMAKE_OPTS
-%cmake_build --target opentx-companion
-%cmake_build --target opentx-simulator
+%cmake_build --target edgetx-companion
+%cmake_build --target edgetx-simulator
 COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 
 %install
@@ -67,47 +71,47 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/opentx-companion
-%{_bindir}/opentx-simulator
-%dir %{_libdir}/opentx-companion-23
-%{_libdir}/opentx-companion-23/libopentx-ar9x-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-sky9x-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-t8-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-t16-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-t12-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-t18-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-tlite-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-tx12-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-tx16s-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x7-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x7access-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x9d-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x9d+-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x9d+2019-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x9e-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x9lite-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x9lites-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x10-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x10express-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-x12s-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-xlite-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-xlites-simulator.so
-%{_libdir}/opentx-companion-23/libopentx-9xrpro-simulator.so
-%{_prefix}/lib/udev/rules.d/45-opentx-companion-taranis.rules
-%{_prefix}/lib/udev/rules.d/45-opentx-companion-usbasp.rules
-%{_datadir}/applications/opentx-companion23.desktop
-%{_datadir}/applications/opentx-simulator23.desktop
-%{_datadir}/icons/hicolor/16x16/apps/opentx-companion.png
-%{_datadir}/icons/hicolor/22x22/apps/opentx-companion.png
-%{_datadir}/icons/hicolor/24x24/apps/opentx-companion.png
-%{_datadir}/icons/hicolor/32x32/apps/opentx-companion.png
-%{_datadir}/icons/hicolor/48x48/apps/opentx-companion.png
-%{_datadir}/icons/hicolor/128x128/apps/opentx-companion.png
-%{_datadir}/icons/hicolor/256x256/apps/opentx-companion.png
-%{_datadir}/icons/hicolor/512x512/apps/opentx-companion.png
-%{_datadir}/icons/hicolor/scalable/apps/opentx-companion.svg
+%{_bindir}/edgetx-companion
+%{_bindir}/edgetx-simulator
+%dir %{_libdir}/edgetx-companion-25
+%{_libdir}/edgetx-companion-25/libopentx-t8-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-t16-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-t12-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-t18-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-tlite-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-tx12-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-tx16s-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x7-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x7access-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x9d-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x9d+-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x9d+2019-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x9e-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x9lite-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x9lites-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x10-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x10express-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-x12s-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-xlite-simulator.so
+%{_libdir}/edgetx-companion-25/libopentx-xlites-simulator.so
+%{_prefix}/lib/udev/rules.d/45-edgetx-companion-taranis.rules
+%{_prefix}/lib/udev/rules.d/45-edgetx-companion-usbasp.rules
+%{_datadir}/applications/edgetx-companion25.desktop
+%{_datadir}/applications/edgetx-simulator25.desktop
+%{_datadir}/icons/hicolor/16x16/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/22x22/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/24x24/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/32x32/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/48x48/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/128x128/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/256x256/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/512x512/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.png
 
 %changelog
+* Sun Mar 20 2022 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.5.0-1
+- Rebase to EdgeTX 2.5.0.
+
 * Sun Mar 20 2022 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.14-3
 - Switch to building using upstream's tools/build-companion-release.sh.
 

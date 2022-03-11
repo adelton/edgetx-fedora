@@ -1,5 +1,5 @@
 
-PACKAGE := opentx-companion
+PACKAGE := edgetx-companion
 
 outdir := $(CURDIR)
 spec := $(PACKAGE).spec
