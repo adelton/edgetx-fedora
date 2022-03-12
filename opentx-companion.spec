@@ -37,23 +37,20 @@ settings, editing settings and running radio simulators.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-rm -rf build-debug
-mkdir -p build-debug/radio/src
-cp %SOURCE1 %SOURCE2 build-debug/radio/src/
+mkdir -p %{_vpath_builddir}/radio/src/
+cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
 
 %build
-cd build-debug
-CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
-%define __cmake_in_source_build 1
-%cmake $CMAKE_OPTS ../
-%make_build opentx-companion
-%make_build opentx-simulator
-%make_build all-simu-libs
-%cmake $CMAKE_OPTS -DPCB=X10 -DPCBREV=T16 ../
-%make_build libsimulator
+CMAKE_OPTS="-Wno-dev -DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
+%cmake $CMAKE_OPTS
+%cmake_build --target opentx-companion
+%cmake_build --target opentx-simulator
+%cmake_build --target all-simu-libs
+%cmake $CMAKE_OPTS -DPCB=X10 -DPCBREV=T16
+%cmake_build --target libsimulator
 
 %install
-make -C build-debug install DESTDIR=%{buildroot}
+%cmake_install
 
 %files
 %defattr(-,root,root,-)
