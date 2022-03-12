@@ -2,15 +2,16 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.5.0
+Version: 2.6.0
 Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
 Source1: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash4.lbm
 Source2: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash8.lbm
-Source11: https://github.com/EdgeTX/libopenui/archive/0c3d3cde54a032c699b01c50a4c552a13e210a06.tar.gz#/libopenui-0c3d3cde.tar.gz
+Source11: https://github.com/EdgeTX/libopenui/archive/f193395874ef6d371ce4fca9c3c222db88d60816.tar.gz#/libopenui-f1933958.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
+Source13: https://github.com/jbeder/yaml-cpp/archive/bce601f2bf25b6579eb94d6d3402d645aae3c375.tar.gz#/yaml-cpp-bce601f2.tar.gz
 Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch3: edgetx-OpenRcBootloader-local.patch
@@ -41,6 +42,7 @@ settings, editing settings and running radio simulators.
 %patch4 -p1
 ( cd radio/src/thirdparty && tar xvzf %SOURCE11 && rmdir libopenui && ln -s libopenui-* libopenui )
 ( cd radio/src/thirdparty/libopenui/src/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
+( cd companion/src/thirdparty && tar xvzf %SOURCE13 && rmdir yaml-cpp && ln -s yaml-cpp-* yaml-cpp )
 mkdir -p %{_vpath_builddir}/radio/src
 cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
 
@@ -73,31 +75,31 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 %defattr(-,root,root,-)
 %{_bindir}/edgetx-companion
 %{_bindir}/edgetx-simulator
-%dir %{_libdir}/edgetx-companion-25
-%{_libdir}/edgetx-companion-25/libopentx-t8-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-t16-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-t12-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-t18-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-tlite-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-tx12-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-tx16s-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x7-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x7access-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x9d-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x9d+-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x9d+2019-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x9e-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x9lite-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x9lites-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x10-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x10express-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-x12s-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-xlite-simulator.so
-%{_libdir}/edgetx-companion-25/libopentx-xlites-simulator.so
+%dir %{_libdir}/edgetx-companion-26
+%{_libdir}/edgetx-companion-26/libedgetx-t8-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-t16-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-t12-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-t18-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-tlite-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-tx12-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-tx16s-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x7-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x7access-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x9d-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x9d+-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x9d+2019-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x9e-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x9lite-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x9lites-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x10-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x10express-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-x12s-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-xlite-simulator.so
+%{_libdir}/edgetx-companion-26/libedgetx-xlites-simulator.so
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-taranis.rules
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-usbasp.rules
-%{_datadir}/applications/edgetx-companion25.desktop
-%{_datadir}/applications/edgetx-simulator25.desktop
+%{_datadir}/applications/edgetx-companion26.desktop
+%{_datadir}/applications/edgetx-simulator26.desktop
 %{_datadir}/icons/hicolor/16x16/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/22x22/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/24x24/apps/edgetx-companion.png
@@ -109,6 +111,9 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.png
 
 %changelog
+* Mon Mar 21 2022 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.6.0-1
+- Rebase to EdgeTX 2.6.0.
+
 * Sun Mar 20 2022 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.5.0-1
 - Rebase to EdgeTX 2.5.0.
 
