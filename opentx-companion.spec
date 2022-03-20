@@ -3,7 +3,7 @@ Summary: OpenTX Companion
 Name: opentx-companion
 
 Version: 2.3.14
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -40,14 +40,27 @@ settings, editing settings and running radio simulators.
 mkdir -p %{_vpath_builddir}/radio/src/
 cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
 
+%set_build_flags
+mkdir bin
+cat > bin/cmake <<'EOS'
+#!/bin/bash
+set -x
+%cmake "$@"
+EOS
+cat > bin/cmake_build <<'EOS'
+#!/bin/bash
+set -x
+%cmake_build "$@"
+EOS
+sed '1,/^cd build/d;/^make.*package/,$d;s%^cmake%bin/&%;s#^make .* libsimulator#bin/cmake_build --target libsimulator#;s#CMakeCache.txt#%{_vpath_builddir}/&#;' tools/build-companion-release.sh > bin/build-companion-release.sh
+chmod a+x bin/*
+
 %build
 CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
 %cmake $CMAKE_OPTS
 %cmake_build --target opentx-companion
 %cmake_build --target opentx-simulator
-%cmake_build --target all-simu-libs
-%cmake $CMAKE_OPTS -DPCB=X10 -DPCBREV=T16
-%cmake_build --target libsimulator
+COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 
 %install
 %cmake_install
@@ -59,14 +72,23 @@ CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYME
 %dir %{_libdir}/opentx-companion-23
 %{_libdir}/opentx-companion-23/libopentx-ar9x-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-sky9x-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-t8-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-t16-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-t12-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-t18-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-tlite-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-tx12-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-tx16s-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x7-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x7access-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x9d-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x9d+-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x9d+2019-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x9e-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x9lite-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x9lites-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x10-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x10express-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x12s-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-xlite-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-xlites-simulator.so
@@ -86,6 +108,9 @@ CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYME
 %{_datadir}/icons/hicolor/scalable/apps/opentx-companion.svg
 
 %changelog
+* Sun Mar 20 2022 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.14-3
+- Switch to building using upstream's tools/build-companion-release.sh.
+
 * Fri Mar 11 2022 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.14-2
 - Include missing update of the revision to 2.3.14.
 
