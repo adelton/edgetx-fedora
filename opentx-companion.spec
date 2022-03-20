@@ -56,10 +56,34 @@ CMAKE_OPTS="-Wno-dev -DGVARS=YES -DLUA=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug 
 %defattr(-,root,root,-)
 %{_bindir}/opentx-companion
 %{_bindir}/opentx-simulator
-%{_libdir}/opentx-companion-23/
-%{_prefix}/lib/udev/rules.d/*
-%{_datadir}/applications/*
-%{_datadir}/icons/hicolor/*
+%dir %{_libdir}/opentx-companion-23
+%{_libdir}/opentx-companion-23/libopentx-ar9x-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-sky9x-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-t16-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x7-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x9d-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x9d+-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x9e-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x9lite-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x9lites-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x10-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-x12s-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-xlite-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-xlites-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-9xrpro-simulator.so
+%{_prefix}/lib/udev/rules.d/45-opentx-companion-taranis.rules
+%{_prefix}/lib/udev/rules.d/45-opentx-companion-usbasp.rules
+%{_datadir}/applications/opentx-companion23.desktop
+%{_datadir}/applications/opentx-simulator23.desktop
+%{_datadir}/icons/hicolor/16x16/apps/opentx-companion.png
+%{_datadir}/icons/hicolor/22x22/apps/opentx-companion.png
+%{_datadir}/icons/hicolor/24x24/apps/opentx-companion.png
+%{_datadir}/icons/hicolor/32x32/apps/opentx-companion.png
+%{_datadir}/icons/hicolor/48x48/apps/opentx-companion.png
+%{_datadir}/icons/hicolor/128x128/apps/opentx-companion.png
+%{_datadir}/icons/hicolor/256x256/apps/opentx-companion.png
+%{_datadir}/icons/hicolor/512x512/apps/opentx-companion.png
+%{_datadir}/icons/hicolor/scalable/apps/opentx-companion.svg
 
 %changelog
 * Fri Mar 11 2022 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.14-2
