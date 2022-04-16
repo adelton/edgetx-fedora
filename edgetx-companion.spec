@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.6.0
+Version: 2.7.0
 Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
@@ -75,31 +75,31 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 %defattr(-,root,root,-)
 %{_bindir}/edgetx-companion
 %{_bindir}/edgetx-simulator
-%dir %{_libdir}/edgetx-companion-26
-%{_libdir}/edgetx-companion-26/libedgetx-t8-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-t16-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-t12-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-t18-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-tlite-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-tx12-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-tx16s-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x7-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x7access-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x9d-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x9d+-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x9d+2019-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x9e-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x9lite-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x9lites-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x10-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x10express-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-x12s-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-xlite-simulator.so
-%{_libdir}/edgetx-companion-26/libedgetx-xlites-simulator.so
+%dir %{_libdir}/edgetx-companion-27
+%{_libdir}/edgetx-companion-27/libedgetx-t8-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-t16-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-t12-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-t18-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-tlite-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-tx12-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-tx16s-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x7-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x7access-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x9d-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x9d+-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x9d+2019-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x9e-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x9lite-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x9lites-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x10-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x10express-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-x12s-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-xlite-simulator.so
+%{_libdir}/edgetx-companion-27/libedgetx-xlites-simulator.so
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-taranis.rules
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-usbasp.rules
-%{_datadir}/applications/edgetx-companion26.desktop
-%{_datadir}/applications/edgetx-simulator26.desktop
+%{_datadir}/applications/edgetx-companion27.desktop
+%{_datadir}/applications/edgetx-simulator27.desktop
 %{_datadir}/icons/hicolor/16x16/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/22x22/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/24x24/apps/edgetx-companion.png
