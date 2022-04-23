@@ -2,8 +2,8 @@
 Summary: OpenTX Companion
 Name: opentx-companion
 
-Version: 2.3.14
-Release: 3%{?dist}
+Version: 2.3.15
+Release: 1%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -12,7 +12,6 @@ Source2: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bo
 Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
 Patch3: opentx-OpenRcBootloader-local.patch
-Patch4: opentx-2.3.14-release.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -36,7 +35,6 @@ settings, editing settings and running radio simulators.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 mkdir -p %{_vpath_builddir}/radio/src/
 cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
 
@@ -77,6 +75,7 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 %{_libdir}/opentx-companion-23/libopentx-t12-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-t18-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-tlite-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-tpro-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-tx12-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-tx16s-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-x7-simulator.so
@@ -92,6 +91,7 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 %{_libdir}/opentx-companion-23/libopentx-x12s-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-xlite-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-xlites-simulator.so
+%{_libdir}/opentx-companion-23/libopentx-zorro-simulator.so
 %{_libdir}/opentx-companion-23/libopentx-9xrpro-simulator.so
 %{_prefix}/lib/udev/rules.d/45-opentx-companion-taranis.rules
 %{_prefix}/lib/udev/rules.d/45-opentx-companion-usbasp.rules
@@ -108,6 +108,9 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 %{_datadir}/icons/hicolor/scalable/apps/opentx-companion.svg
 
 %changelog
+* Sat Apr 23 2022 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.15-1
+- Rebase to 2.3.15.
+
 * Sun Mar 20 2022 Jan Pazdziora <jpx-opentx@adelton.com> - 2.3.14-3
 - Switch to building using upstream's tools/build-companion-release.sh.
 
