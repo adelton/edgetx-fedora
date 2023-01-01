@@ -2,30 +2,28 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.7.2
-Release: 2%{?dist}
+Version: 2.8.0
+Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
-Source1: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash4.lbm
-Source2: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash8.lbm
-Source11: https://github.com/EdgeTX/libopenui/archive/f193395874ef6d371ce4fca9c3c222db88d60816.tar.gz#/libopenui-f1933958.tar.gz
+Source11: https://github.com/EdgeTX/libopenui/archive/fbb92f83cf49af11c47919f3114ab2279c88b7a2.tar.gz#/libopenui-fbb92f83.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
 Source13: https://github.com/jbeder/yaml-cpp/archive/9a3624205e8774953ef18f57067b3426c1c5ada6.tar.gz#/yaml-cpp-9a362420.tar.gz
+Source14: https://github.com/EdgeTX/lvgl/archive/9a414b1d48d2893133b6038ec80d59fb157aade4.tar.gz#/lvgl-9a414b1d.tar.gz
 Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
-Patch3: edgetx-OpenRcBootloader-local.patch
 Patch4: edgetx-disable-appimage.patch
+Patch5: build-simulator.sh.patch
 
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: gcc-c++
+BuildRequires: clang-devel
 BuildRequires: qt5-qttools-devel, qt5-qtsvg-devel, qt5-qtmultimedia-devel
 BuildRequires: fox-devel
 BuildRequires: SDL-devel
-BuildRequires: arm-none-eabi-gcc-cs-c++
-BuildRequires: arm-none-eabi-newlib
-BuildRequires: python3-pillow
+BuildRequires: python3-pillow python3-lz4 python3-clang
 BuildRequires: llvm-googletest
 Requires: dfu-util
 
@@ -38,13 +36,12 @@ settings, editing settings and running radio simulators.
 %setup -n edgetx-%{version}
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 %patch4 -p1
+%patch5 -p1
 ( cd radio/src/thirdparty && tar xvzf %SOURCE11 && rmdir libopenui && ln -s libopenui-* libopenui )
-( cd radio/src/thirdparty/libopenui/src/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
+( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
+( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
 ( cd companion/src/thirdparty && tar xvzf %SOURCE13 && rmdir yaml-cpp && ln -s yaml-cpp-* yaml-cpp )
-mkdir -p %{_vpath_builddir}/radio/src
-cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
 
 %set_build_flags
 mkdir bin
@@ -53,53 +50,54 @@ cat > bin/cmake <<'EOS'
 set -x
 %cmake "$@"
 EOS
-cat > bin/cmake_build <<'EOS'
-#!/bin/bash
-set -x
-%cmake_build "$@"
-EOS
-sed '1,/^cd build/d;/^make.*package/,$d;s%^cmake%bin/&%;s#^make .* libsimulator#bin/cmake_build --target libsimulator#;s#CMakeCache.txt#%{_vpath_builddir}/&#;' tools/build-companion-release.sh > bin/build-companion-release.sh
-chmod a+x bin/*
+chmod a+x bin/cmake
 
 %build
-CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
-%cmake $CMAKE_OPTS
-%cmake_build --target edgetx-companion
-%cmake_build --target edgetx-simulator
-COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
+CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
+%cmake $CMAKE_OPTS -DPCB=X9D
+make -C %{_vpath_builddir} native-configure
+make -C %{_vpath_builddir} companion
+make -C %{_vpath_builddir} simulator
+tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" release
 
 %install
-%cmake_install
+%{cmake_install}/native
 
 %files
 %defattr(-,root,root,-)
 %{_bindir}/edgetx-companion
 %{_bindir}/edgetx-simulator
-%dir %{_libdir}/edgetx-companion-27
-%{_libdir}/edgetx-companion-27/libedgetx-t8-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-t16-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-t12-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-t18-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-tlite-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-tx12-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-tx16s-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x7-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x7access-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x9d-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x9d+-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x9d+2019-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x9e-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x9lite-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x9lites-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x10-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x10express-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-x12s-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-xlite-simulator.so
-%{_libdir}/edgetx-companion-27/libedgetx-xlites-simulator.so
+%dir %{_libdir}/edgetx-companion-28
+%{_libdir}/edgetx-companion-28/libedgetx-commando8-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-lr3pro-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-nv14-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-t8-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-t16-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-t12-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-t18-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-tlite-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-tpro-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-tx12-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-tx12mk2-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-tx16s-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x7-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x7access-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x9d-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x9d+-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x9d+2019-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x9e-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x9lite-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x9lites-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x10-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x10express-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-x12s-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-xlite-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-xlites-simulator.so
+%{_libdir}/edgetx-companion-28/libedgetx-zorro-simulator.so
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-taranis.rules
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-usbasp.rules
-%{_datadir}/applications/edgetx-companion27.desktop
-%{_datadir}/applications/edgetx-simulator27.desktop
+%{_datadir}/applications/edgetx-companion28.desktop
+%{_datadir}/applications/edgetx-simulator28.desktop
 %{_datadir}/icons/hicolor/16x16/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/22x22/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/24x24/apps/edgetx-companion.png
@@ -108,9 +106,12 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 %{_datadir}/icons/hicolor/128x128/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/256x256/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/512x512/apps/edgetx-companion.png
-%{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.png
+%{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Sun Jan 01 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.0-1
+- Rebase to EdgeTX 2.8.0.
+
 * Sun Jan 01 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.7.2-2
 - Update to EdgeTX 2.7.2.
 

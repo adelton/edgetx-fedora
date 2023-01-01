@@ -21,7 +21,7 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
  else()
    set(COMPANION_NAME "companion")
    set(SIMULATOR_NAME "simulator")
-@@ -78,7 +78,7 @@
+@@ -73,7 +73,7 @@
    endif()
  else()
    set(PTHREAD_LIBRARY pthread)
@@ -30,10 +30,10 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
  endif()
  
  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
-@@ -354,23 +354,23 @@
+@@ -351,23 +351,23 @@
    install(TARGETS ${COMPANION_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
    install(TARGETS ${SIMULATOR_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-   install(FILES ${simulator_plugins} DESTINATION "${SIMULATOR_LIB_INSTALL_PATH}")
+   install(DIRECTORY ${CMAKE_BINARY_DIR}/plugins/ DESTINATION "${SIMULATOR_LIB_INSTALL_PATH}")
 -  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION share/applications RENAME companion${C9X_NAME_SUFFIX}.desktop)
 -  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/simulator.desktop DESTINATION share/applications RENAME simulator${C9X_NAME_SUFFIX}.desktop)
 +  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION share/applications RENAME edgetx-companion${C9X_NAME_SUFFIX}.desktop)
@@ -61,9 +61,9 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 +  install(FILES images/linuxicons/128x128/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/128x128/apps RENAME ${COMPANION_NAME}.png)
 +  install(FILES images/linuxicons/256x256/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/256x256/apps RENAME ${COMPANION_NAME}.png)
 +  install(FILES images/linuxicons/512x512/companion.png DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/512x512/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/scalable/apps RENAME ${COMPANION_NAME}.png)
++  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/scalable/apps RENAME ${COMPANION_NAME}.svg)
 +  install(FILES ../targets/linux/45-companion-taranis.rules DESTINATION ${INSTALL_TEMP_LIB_PFX}lib/udev/rules.d RENAME 45-${COMPANION_NAME}-taranis.rules)
 +  install(FILES ../targets/linux/45-usbasp.rules DESTINATION ${INSTALL_TEMP_LIB_PFX}lib/udev/rules.d RENAME 45-${COMPANION_NAME}-usbasp.rules)
    # Linux specific code
    set(OperatingSystem "Linux")
- elseif(WIN32)
+   # Shortcut target
