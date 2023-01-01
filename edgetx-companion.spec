@@ -3,7 +3,7 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.7.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
@@ -11,7 +11,7 @@ Source1: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bo
 Source2: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash8.lbm
 Source11: https://github.com/EdgeTX/libopenui/archive/f193395874ef6d371ce4fca9c3c222db88d60816.tar.gz#/libopenui-f1933958.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
-Source13: https://github.com/jbeder/yaml-cpp/archive/bce601f2bf25b6579eb94d6d3402d645aae3c375.tar.gz#/yaml-cpp-bce601f2.tar.gz
+Source13: https://github.com/jbeder/yaml-cpp/archive/9a3624205e8774953ef18f57067b3426c1c5ada6.tar.gz#/yaml-cpp-9a362420.tar.gz
 Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch3: edgetx-OpenRcBootloader-local.patch
@@ -111,7 +111,7 @@ COMMON_OPTIONS="$CMAKE_OPTS" bin/build-companion-release.sh
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.png
 
 %changelog
-* Sun Jan 01 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.7.2-1
+* Sun Jan 01 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.7.2-2
 - Update to EdgeTX 2.7.2.
 
 * Mon May 09 2022 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.7.1-1
