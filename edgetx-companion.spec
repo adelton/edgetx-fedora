@@ -2,12 +2,12 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.8.0
+Version: 2.8.1
 Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
-Source11: https://github.com/EdgeTX/libopenui/archive/fbb92f83cf49af11c47919f3114ab2279c88b7a2.tar.gz#/libopenui-fbb92f83.tar.gz
+Source11: https://github.com/EdgeTX/libopenui/archive/6b76d00119581ba96e97dd4db150a26af8ddad93.tar.gz#/libopenui-6b76d001.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
 Source13: https://github.com/jbeder/yaml-cpp/archive/9a3624205e8774953ef18f57067b3426c1c5ada6.tar.gz#/yaml-cpp-9a362420.tar.gz
 Source14: https://github.com/EdgeTX/lvgl/archive/9a414b1d48d2893133b6038ec80d59fb157aade4.tar.gz#/lvgl-9a414b1d.tar.gz
@@ -109,6 +109,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Tue Feb 21 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.1-1
+- Update to EdgeTX 2.8.1.
+
 * Sun Jan 01 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.0-1
 - Rebase to EdgeTX 2.8.0.
 
