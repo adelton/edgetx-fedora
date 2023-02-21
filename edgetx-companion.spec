@@ -3,7 +3,7 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.8.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
@@ -15,6 +15,7 @@ Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
 Patch5: build-simulator.sh.patch
+Patch6: edgetx-issue-3222-cstdint.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -38,6 +39,7 @@ settings, editing settings and running radio simulators.
 %patch2 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 ( cd radio/src/thirdparty && tar xvzf %SOURCE11 && rmdir libopenui && ln -s libopenui-* libopenui )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
@@ -110,8 +112,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
-* Tue Feb 21 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.1-1
+* Tue Feb 21 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.1-2
 - Update to EdgeTX 2.8.1.
+- Fixes https://github.com/EdgeTX/edgetx/issues/3222 on Fedora 38+.
 
 * Sun Jan 01 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.0-1
 - Rebase to EdgeTX 2.8.0.
