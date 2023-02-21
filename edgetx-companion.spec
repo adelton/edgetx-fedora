@@ -68,6 +68,7 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_bindir}/edgetx-companion
 %{_bindir}/edgetx-simulator
 %dir %{_libdir}/edgetx-companion-28
+%{_libdir}/edgetx-companion-28/libedgetx-boxer-simulator.so
 %{_libdir}/edgetx-companion-28/libedgetx-commando8-simulator.so
 %{_libdir}/edgetx-companion-28/libedgetx-lr3pro-simulator.so
 %{_libdir}/edgetx-companion-28/libedgetx-nv14-simulator.so
