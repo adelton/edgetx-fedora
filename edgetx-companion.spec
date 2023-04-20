@@ -3,7 +3,7 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.8.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
@@ -34,12 +34,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%setup -n edgetx-%{version}
-%patch1 -p1
-%patch2 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
+%autosetup -n edgetx-%{version} -p1
 ( cd radio/src/thirdparty && tar xvzf %SOURCE11 && rmdir libopenui && ln -s libopenui-* libopenui )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
