@@ -3,7 +3,7 @@ Summary: OpenTX Companion
 Name: opentx-companion
 
 Version: 2.3.15
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
@@ -31,10 +31,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%setup -n opentx-release-%{version}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%autosetup -n opentx-release-%{version} -p1
 mkdir -p %{_vpath_builddir}/radio/src/
 cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
 
