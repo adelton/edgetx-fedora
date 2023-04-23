@@ -3,7 +3,7 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.8.3
-Release: 2%{?dist}
+Release: 4%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
@@ -25,7 +25,6 @@ BuildRequires: qt5-qttools-devel, qt5-qtsvg-devel, qt5-qtmultimedia-devel
 BuildRequires: fox-devel
 BuildRequires: SDL-devel
 BuildRequires: python3-pillow python3-lz4 python3-clang
-BuildRequires: llvm-googletest
 Requires: dfu-util
 
 %description
@@ -50,7 +49,7 @@ EOS
 chmod a+x bin/cmake
 
 %build
-CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
+CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=$(pwd)/companion/src/thirdparty/yaml-cpp/test/gtest-1.8.0/googletest"
 %cmake $CMAKE_OPTS -DPCB=X9D
 make -C %{_vpath_builddir} native-configure
 make -C %{_vpath_builddir} companion
@@ -107,6 +106,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Sun Apr 23 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.3-4
+- Use Google Test from yaml-cpp.
+
 * Wed Apr 19 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.3-1
 - Update to EdgeTX 2.8.3.
 
