@@ -15,7 +15,6 @@ Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
 Patch5: build-simulator.sh.patch
-Patch6: edgetx-issue-3222-cstdint.patch
 
 BuildRequires: cmake
 BuildRequires: make
