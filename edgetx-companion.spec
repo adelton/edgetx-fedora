@@ -2,8 +2,8 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.8.3
-Release: 4%{?dist}
+Version: 2.8.4
+Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
@@ -105,6 +105,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Mon May 15 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.4-1
+- Update to EdgeTX 2.8.4.
+
 * Sun Apr 23 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.3-4
 - Use Google Test from yaml-cpp.
 
