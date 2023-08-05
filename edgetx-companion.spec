@@ -2,14 +2,13 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.8.5
-Release: 1%{?dist}
+Version: 2.9.0
+Release: 0.rc2.1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
-Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
-Source11: https://github.com/EdgeTX/libopenui/archive/6b76d00119581ba96e97dd4db150a26af8ddad93.tar.gz#/libopenui-6b76d001.tar.gz
+Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc2.tar.gz#/edgetx-%{version}-rc2.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
-Source13: https://github.com/jbeder/yaml-cpp/archive/9a3624205e8774953ef18f57067b3426c1c5ada6.tar.gz#/yaml-cpp-9a362420.tar.gz
+Source13: https://github.com/jbeder/yaml-cpp/archive/1b50109f7bea60bd382d8ea7befce3d2bd67da5f.tar.gz#/yaml-cpp-1b50109f.tar.gz
 Source14: https://github.com/EdgeTX/lvgl/archive/9a414b1d48d2893133b6038ec80d59fb157aade4.tar.gz#/lvgl-9a414b1d.tar.gz
 Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
@@ -32,8 +31,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%autosetup -n edgetx-%{version} -p1
-( cd radio/src/thirdparty && tar xvzf %SOURCE11 && rmdir libopenui && ln -s libopenui-* libopenui )
+%autosetup -n edgetx-%{version}-rc2 -p1
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
 ( cd companion/src/thirdparty && tar xvzf %SOURCE13 && rmdir yaml-cpp && ln -s yaml-cpp-* yaml-cpp )
@@ -62,38 +60,38 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %defattr(-,root,root,-)
 %{_bindir}/edgetx-companion
 %{_bindir}/edgetx-simulator
-%dir %{_libdir}/edgetx-companion-28
-%{_libdir}/edgetx-companion-28/libedgetx-boxer-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-commando8-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-lr3pro-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-nv14-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-t8-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-t16-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-t12-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-t18-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-tlite-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-tpro-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-tx12-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-tx12mk2-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-tx16s-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x7-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x7access-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x9d-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x9d+-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x9d+2019-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x9e-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x9lite-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x9lites-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x10-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x10express-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-x12s-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-xlite-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-xlites-simulator.so
-%{_libdir}/edgetx-companion-28/libedgetx-zorro-simulator.so
+%dir %{_libdir}/edgetx-companion-29
+%{_libdir}/edgetx-companion-29/libedgetx-boxer-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-commando8-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-lr3pro-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-nv14-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-t8-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-t16-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-t12-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-t18-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-tlite-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-tpro-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-tx12-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-tx12mk2-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-tx16s-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x7-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x7access-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x9d-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x9d+-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x9d+2019-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x9e-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x9lite-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x9lites-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x10-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x10express-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-x12s-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-xlite-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-xlites-simulator.so
+%{_libdir}/edgetx-companion-29/libedgetx-zorro-simulator.so
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-taranis.rules
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-usbasp.rules
-%{_datadir}/applications/edgetx-companion28.desktop
-%{_datadir}/applications/edgetx-simulator28.desktop
+%{_datadir}/applications/edgetx-companion29.desktop
+%{_datadir}/applications/edgetx-simulator29.desktop
 %{_datadir}/icons/hicolor/16x16/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/22x22/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/24x24/apps/edgetx-companion.png
@@ -105,6 +103,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Sat Aug 05 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.9.0-0.rc2.1
+- Update to EdgeTX 2.9.0-rc2.
+
 * Sat Aug 05 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.8.5-1
 - Update to EdgeTX 2.8.5.
 

@@ -1,8 +1,8 @@
 diff --git a/tools/build-companion.sh b/tools/build-companion.sh
-index 7df4b1f8a..2a5443176 100755
+index 138974301..abb05b1c5 100755
 --- a/tools/build-companion.sh
 +++ b/tools/build-companion.sh
-@@ -4,64 +4,10 @@
+@@ -4,64 +4,11 @@
  set -e
  set -x
  
@@ -31,15 +31,15 @@ index 7df4b1f8a..2a5443176 100755
 -
  SRCDIR=$1
  OUTDIR=$2
--
+ 
 -COMMON_OPTIONS="-DGVARS=YES -DHELI=YES -DLUA=YES -Wno-dev -DCMAKE_BUILD_TYPE=Release"
 -if [ "$(uname)" = "Darwin" ]; then
 -    COMMON_OPTIONS="${COMMON_OPTIONS} -DCMAKE_OSX_DEPLOYMENT_TARGET='10.9'"
 -elif [ "$(uname)" != "Linux" ]; then # Assume Windows and MSYS2
 -    if [ "${MSYSTEM,,}" == "mingw32" ]; then # MSYS 32bit detected
--        COMMON_OPTIONS="${COMMON_OPTIONS} -DSDL_LIBRARY_PATH=/mingw32/bin/"
+-        COMMON_OPTIONS="${COMMON_OPTIONS} -DSDL2_LIBRARY_PATH=/mingw32/bin/"
 -    else # fallback to 64bit
--        COMMON_OPTIONS="${COMMON_OPTIONS} -DSDL_LIBRARY_PATH=/mingw64/bin/"
+-        COMMON_OPTIONS="${COMMON_OPTIONS} -DSDL2_LIBRARY_PATH=/mingw64/bin/"
 -    fi
 -fi
 -
@@ -69,7 +69,7 @@ index 7df4b1f8a..2a5443176 100755
  
  declare -a simulator_plugins=(x9lite x9lites
                                x7 x7-access
-@@ -160,20 +106,9 @@ do
+@@ -170,20 +117,9 @@ do
              ;;
      esac
  
