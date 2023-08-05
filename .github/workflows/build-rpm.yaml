@@ -1,0 +1,36 @@
+
+name: EdgeTX Companion rpm
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build EdgeTX Companion rpm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build source container image
+        run: docker build -t localhost/edgetx-builder -f .github/Dockerfile .
+      - run: mkdir rpmbuild
+      - name: Build the rpm
+        run: docker run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild localhost/edgetx-builder bash -c 'rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec'
+      - run: find rpmbuild/SRPMS rpmbuild/RPMS
+      - run: |
+          srpm_path=$( find rpmbuild/SRPMS -type f )
+          echo "srpm_path=$srpm_path" >> $GITHUB_ENV
+          echo "srpm_name=$( basename $srpm_path )" >> $GITHUB_ENV
+          rpm_path=$( find rpmbuild/RPMS -type f | grep -v debug )
+          echo "rpm_path=$rpm_path" >> $GITHUB_ENV
+          echo "rpm_name=$( basename $rpm_path )" >> $GITHUB_ENV
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.srpm_name }}
+          path: ${{ env.srpm_path }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.rpm_name }}
+          path: ${{ env.rpm_path }}
+
