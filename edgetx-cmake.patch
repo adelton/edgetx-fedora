@@ -30,10 +30,10 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
  endif()
  
  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
-@@ -351,23 +351,23 @@
+@@ -363,23 +363,23 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
    install(TARGETS ${COMPANION_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
    install(TARGETS ${SIMULATOR_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-   install(DIRECTORY ${CMAKE_BINARY_DIR}/plugins/ DESTINATION "${SIMULATOR_LIB_INSTALL_PATH}")
+   install(DIRECTORY ${CMAKE_BINARY_DIR}/plugins/ DESTINATION ${SIMULATOR_LIB_INSTALL_PATH})
 -  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION share/applications RENAME companion${C9X_NAME_SUFFIX}.desktop)
 -  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/simulator.desktop DESTINATION share/applications RENAME simulator${C9X_NAME_SUFFIX}.desktop)
 +  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION share/applications RENAME edgetx-companion${C9X_NAME_SUFFIX}.desktop)
@@ -64,6 +64,6 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 +  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${INSTALL_TEMP_SHR_PFX}share/icons/hicolor/scalable/apps RENAME ${COMPANION_NAME}.svg)
 +  install(FILES ../targets/linux/45-companion-taranis.rules DESTINATION ${INSTALL_TEMP_LIB_PFX}lib/udev/rules.d RENAME 45-${COMPANION_NAME}-taranis.rules)
 +  install(FILES ../targets/linux/45-usbasp.rules DESTINATION ${INSTALL_TEMP_LIB_PFX}lib/udev/rules.d RENAME 45-${COMPANION_NAME}-usbasp.rules)
-   # Linux specific code
-   set(OperatingSystem "Linux")
-   # Shortcut target
+ 
+   if (OPENSSL_FOUND)
+     get_filename_component(OPENSSL_SSL_LIBRARY_DIR ${OPENSSL_SSL_LIBRARY} DIRECTORY)
