@@ -3,10 +3,10 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.9.0
-Release: 0.rc2.1%{?dist}
+Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
-Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc2.tar.gz#/edgetx-%{version}-rc2.tar.gz
+Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
 Source13: https://github.com/jbeder/yaml-cpp/archive/1b50109f7bea60bd382d8ea7befce3d2bd67da5f.tar.gz#/yaml-cpp-1b50109f.tar.gz
 Source14: https://github.com/EdgeTX/lvgl/archive/9a414b1d48d2893133b6038ec80d59fb157aade4.tar.gz#/lvgl-9a414b1d.tar.gz
@@ -21,7 +21,7 @@ BuildRequires: gcc-c++
 BuildRequires: clang-devel
 BuildRequires: qt5-qttools-devel, qt5-qtsvg-devel, qt5-qtmultimedia-devel
 BuildRequires: fox-devel
-BuildRequires: SDL-devel
+BuildRequires: SDL2-devel
 BuildRequires: python3-pillow python3-lz4 python3-clang
 Requires: dfu-util
 
@@ -31,7 +31,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators. 
 
 %prep
-%autosetup -n edgetx-%{version}-rc2 -p1
+%autosetup -n edgetx-%{version} -p1
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
 ( cd companion/src/thirdparty && tar xvzf %SOURCE13 && rmdir yaml-cpp && ln -s yaml-cpp-* yaml-cpp )
@@ -46,7 +46,7 @@ EOS
 chmod a+x bin/cmake
 
 %build
-CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=$(pwd)/companion/src/thirdparty/yaml-cpp/test/gtest-1.8.0/googletest"
+CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=$(pwd)/companion/src/thirdparty/yaml-cpp/test/gtest-1.11.0/googletest"
 %cmake $CMAKE_OPTS -DPCB=X9D
 make -C %{_vpath_builddir} native-configure
 make -C %{_vpath_builddir} companion
@@ -103,6 +103,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Sat Sep 02 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.9.0-1
+- Update to EdgeTX 2.9.0.
+
 * Sat Aug 05 2023 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.9.0-0.rc2.1
 - Update to EdgeTX 2.9.0-rc2.
 
