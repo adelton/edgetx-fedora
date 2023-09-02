@@ -15,6 +15,8 @@ Built from [branch edgetx-2.9](https://github.com/adelton/edgetx-fedora/tree/edg
 rpms for contemporary Fedora versions are at
 https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.9/
 
+[![Copr build status](https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.9/package/edgetx-companion/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.9/package/edgetx-companion/)
+
 ## Older versions
 
 Built from [branch edgetx-2.8](https://github.com/adelton/edgetx-fedora/tree/edgetx-2.8),
