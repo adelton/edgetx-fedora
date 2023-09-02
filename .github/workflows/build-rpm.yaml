@@ -16,7 +16,7 @@ jobs:
         run: docker build -t localhost/edgetx-builder -f .github/Dockerfile .
       - run: mkdir rpmbuild
       - name: Build the rpm
-        run: docker run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild localhost/edgetx-builder bash -c 'rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec'
+        run: docker run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c 'rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec'
       - run: find rpmbuild/SRPMS rpmbuild/RPMS
       - run: |
           srpm_path=$( find rpmbuild/SRPMS -type f )
