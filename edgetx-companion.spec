@@ -23,6 +23,7 @@ BuildRequires: qt5-qttools-devel, qt5-qtsvg-devel, qt5-qtmultimedia-devel
 BuildRequires: fox-devel
 BuildRequires: SDL2-devel
 BuildRequires: python3-pillow python3-lz4 python3-clang
+BuildRequires: libusb1-devel
 Requires: dfu-util
 
 %description
