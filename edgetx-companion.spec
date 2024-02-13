@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.9.3
+Version: 2.9.4
 Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
@@ -104,6 +104,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Tue Feb 13 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.9.4-1
+- Update to EdgeTX 2.9.4.
+
 * Sat Jan 20 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.9.3-1
 - Update to EdgeTX 2.9.3.
 
