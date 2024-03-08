@@ -2,14 +2,16 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.9.4
-Release: 1%{?dist}
+Version: 2.10.0
+Release: 0.rc1.1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
-Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
+Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc1.tar.gz#/edgetx-%{version}.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
-Source13: https://github.com/jbeder/yaml-cpp/archive/1b50109f7bea60bd382d8ea7befce3d2bd67da5f.tar.gz#/yaml-cpp-1b50109f.tar.gz
 Source14: https://github.com/EdgeTX/lvgl/archive/9a414b1d48d2893133b6038ec80d59fb157aade4.tar.gz#/lvgl-9a414b1d.tar.gz
+Source15: https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz#/googletest-1.14.0.tar.gz
+Source16: https://github.com/edgetx/maxLibQt/archive/b5418f76cc4891e09f4e21276175d39dbb130f66.tar.gz#/maxLibQt-b5418f76.tar.gz
+
 Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
@@ -24,18 +26,22 @@ BuildRequires: fox-devel
 BuildRequires: SDL2-devel
 BuildRequires: python3-pillow python3-lz4 python3-clang
 BuildRequires: libusb1-devel
+BuildRequires: yaml-cpp-devel
+BuildRequires: miniz-devel
+BuildRequires: python3-jinja2
 Requires: dfu-util
 
 %description
 OpenTX Companion transmitter support software is used for many different
 tasks like loading OpenTX firmware to the radio, backing up model
-settings, editing settings and running radio simulators. 
+settings, editing settings and running radio simulators.
 
 %prep
-%autosetup -n edgetx-%{version} -p1
+%autosetup -n edgetx-%{version}-rc1 -p1
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
-( cd companion/src/thirdparty && tar xvzf %SOURCE13 && rmdir yaml-cpp && ln -s yaml-cpp-* yaml-cpp )
+tar xvzf %SOURCE15 && ln -s googletest-* googletest
+( cd companion/src && tar xvzf %SOURCE16 && ln -s maxLibQt-* maxLibQt )
 
 %set_build_flags
 mkdir bin
@@ -46,8 +52,13 @@ set -x
 EOS
 chmod a+x bin/cmake
 
+sed -i 's/include(FetchGtest)/add_subdirectory(googletest)/' cmake/NativeTargets.cmake
+sed -i '/include(FetchMiniz)/d' companion/src/CMakeLists.txt
+sed -i '/include(FetchYamlCpp)/d' companion/src/CMakeLists.txt
+sed -i 's/include(FetchMaxLibQt)/add_subdirectory(maxLibQt)/' companion/src/CMakeLists.txt
+
 %build
-CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=$(pwd)/companion/src/thirdparty/yaml-cpp/test/gtest-1.11.0/googletest"
+CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -Dgoogletest_SOURCE_DIR=$(pwd)/googletest -Dmaxlibqt_SOURCE_DIR=$(pwd)/maxLibQt -DINSTALL_GTEST=OFF -DINSTALL_GMOCK=OFF"
 %cmake $CMAKE_OPTS -DPCB=X9D
 make -C %{_vpath_builddir} native-configure
 make -C %{_vpath_builddir} companion
@@ -61,38 +72,40 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %defattr(-,root,root,-)
 %{_bindir}/edgetx-companion
 %{_bindir}/edgetx-simulator
-%dir %{_libdir}/edgetx-companion-29
-%{_libdir}/edgetx-companion-29/libedgetx-boxer-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-commando8-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-lr3pro-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-nv14-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-t8-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-t16-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-t12-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-t18-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-tlite-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-tpro-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-tx12-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-tx12mk2-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-tx16s-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x7-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x7access-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x9d-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x9d+-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x9d+2019-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x9e-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x9lite-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x9lites-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x10-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x10express-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-x12s-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-xlite-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-xlites-simulator.so
-%{_libdir}/edgetx-companion-29/libedgetx-zorro-simulator.so
+%dir %{_libdir}/edgetx-companion-210
+%{_libdir}/edgetx-companion-210/libedgetx-boxer-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-commando8-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-lr3pro-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-nv14-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-pl18-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-pl18ev-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-t8-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-t16-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-t12-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-t18-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-tlite-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-tpro-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-tx12-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-tx12mk2-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-tx16s-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x7-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x7access-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x9d-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x9d+-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x9d+2019-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x9e-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x9lite-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x9lites-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x10-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x10express-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-x12s-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-xlite-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-xlites-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-zorro-simulator.so
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-taranis.rules
 %{_prefix}/lib/udev/rules.d/45-edgetx-companion-usbasp.rules
-%{_datadir}/applications/edgetx-companion29.desktop
-%{_datadir}/applications/edgetx-simulator29.desktop
+%{_datadir}/applications/edgetx-companion210.desktop
+%{_datadir}/applications/edgetx-simulator210.desktop
 %{_datadir}/icons/hicolor/16x16/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/22x22/apps/edgetx-companion.png
 %{_datadir}/icons/hicolor/24x24/apps/edgetx-companion.png
@@ -104,6 +117,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Fri Mar 08 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.10.0-rc1.1
+- Update to EdgeTX 2.10.0-rc1.
+
 * Tue Feb 13 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.9.4-1
 - Update to EdgeTX 2.9.4.
 

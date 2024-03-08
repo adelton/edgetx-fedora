@@ -1,11 +1,11 @@
 diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
---- a/companion/src/CMakeLists.txt	2024-01-20 12:53:32.342343476 +0000
-+++ b/companion/src/CMakeLists.txt	2024-01-20 12:55:24.767011650 +0000
-@@ -589,56 +589,4 @@
+--- a/companion/src/CMakeLists.txt
++++ b/companion/src/CMakeLists.txt
+@@ -576,56 +576,4 @@ if(APPLE)
    set(CPACK_PACKAGE_FILE_NAME "edgetx-${CPACK_PACKAGE_NAME_LOWERCASE}-${VERSION}")
  endif(APPLE)
  
--if(LINUX)
+-if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 -  set(LINUXDEPLOY_APPIMAGE "linuxdeploy-x86_64.AppImage")
 -  set(LINUXDEPLOY_PLUGIN_QT "linuxdeploy-plugin-qt-x86_64.AppImage")
 -  set(LINUXDEPLOY_URL "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous")
