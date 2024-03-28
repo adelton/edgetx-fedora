@@ -3,10 +3,10 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.10.0
-Release: 0.rc1.1%{?dist}
+Release: 0.rc2.1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
-Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc1.tar.gz#/edgetx-%{version}.tar.gz
+Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc2.tar.gz#/edgetx-%{version}.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
 Source14: https://github.com/EdgeTX/lvgl/archive/9a414b1d48d2893133b6038ec80d59fb157aade4.tar.gz#/lvgl-9a414b1d.tar.gz
 Source15: https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz#/googletest-1.14.0.tar.gz
@@ -37,7 +37,7 @@ tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators.
 
 %prep
-%autosetup -n edgetx-%{version}-rc1 -p1
+%autosetup -n edgetx-%{version}-rc2 -p1
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
 tar xvzf %SOURCE15 && ln -s googletest-* googletest
@@ -75,16 +75,21 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %dir %{_libdir}/edgetx-companion-210
 %{_libdir}/edgetx-companion-210/libedgetx-boxer-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-commando8-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-el18-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-lr3pro-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-nv14-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-pl18-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-pl18ev-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-pocket-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t8-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t16-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t12-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-t14-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t18-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-t20-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tlite-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tpro-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-tprov2-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tx12-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tx12mk2-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tx16s-simulator.so
@@ -117,6 +122,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Thu Mar 28 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.10.0-rc2.1
+- Update to EdgeTX 2.10.0-rc2.
+
 * Fri Mar 08 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.10.0-rc1.1
 - Update to EdgeTX 2.10.0-rc1.
 
