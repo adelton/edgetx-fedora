@@ -11,7 +11,7 @@ jobs:
     name: Build EdgeTX Companion rpm
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build source container image
         run: docker build -t localhost/edgetx-builder -f .github/Dockerfile .
       - run: mkdir rpmbuild
@@ -25,11 +25,11 @@ jobs:
           rpm_path=$( find rpmbuild/RPMS -type f | grep -v debug )
           echo "rpm_path=$rpm_path" >> $GITHUB_ENV
           echo "rpm_name=$( basename $rpm_path )" >> $GITHUB_ENV
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.srpm_name }}
           path: ${{ env.srpm_path }}
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.rpm_name }}
           path: ${{ env.rpm_path }}
