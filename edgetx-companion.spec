@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.10.2
+Version: 2.10.3
 Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
@@ -84,6 +84,7 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_libdir}/edgetx-companion-210/libedgetx-pocket-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t8-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t12-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-t12max-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t14-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t15-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-t16-simulator.so
@@ -92,6 +93,7 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_libdir}/edgetx-companion-210/libedgetx-t20v2-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tlite-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tpro-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-tpros-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tprov2-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tx12-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-tx12mk2-simulator.so
@@ -125,6 +127,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Sat Aug 03 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.10.3-1
+- Update to EdgeTX 2.10.3.
+
 * Thu Jul 04 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.10.2-1
 - Update to EdgeTX 2.10.2.
 
