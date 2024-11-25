@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.10.4
+Version: 2.10.5
 Release: 1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
@@ -74,6 +74,7 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_bindir}/edgetx-simulator
 %dir %{_libdir}/edgetx-companion-210
 %{_libdir}/edgetx-companion-210/libedgetx-boxer-simulator.so
+%{_libdir}/edgetx-companion-210/libedgetx-bumblebee-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-commando8-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-el18-simulator.so
 %{_libdir}/edgetx-companion-210/libedgetx-f16-simulator.so
@@ -127,6 +128,9 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" rele
 %{_datadir}/icons/hicolor/scalable/apps/edgetx-companion.svg
 
 %changelog
+* Mon Nov 25 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.10.5-1
+- Update to EdgeTX 2.10.5.
+
 * Tue Sep 10 2024 Jan Pazdziora <jpx-edgetx@adelton.com> - 2.10.4-1
 - Update to EdgeTX 2.10.4.
 
