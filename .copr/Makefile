@@ -17,10 +17,11 @@ else
 endif
 
 srpm:
+	for i in /usr/bin/rpmautospec /usr/bin/spectool ; do rpm -qf $$i || dnf install -y $$i ; done
 	mkdir -p $(outdir)/.sources
-	cp -p $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
+	rpmautospec process-distgit $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
+	touch -r $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
 	cp -p $(spec_dir)*.patch $(outdir)/.sources/
-	rpm -qf /usr/bin/spectool || dnf install -y /usr/bin/spectool
 	cd $(outdir)/.sources && spectool -g $(spec_out)
 	cd $(outdir)/.sources && rpmbuild -D '_srcrpmdir $(outdir)' -D '_sourcedir $(outdir)/.sources' -bs $(outdir)/.sources/$(spec_out)
 	rm -rf $(outdir)/.sources
