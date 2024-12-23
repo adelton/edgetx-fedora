@@ -59,11 +59,15 @@ sed -i 's/include(FetchMaxLibQt)/add_subdirectory(maxLibQt)/' companion/src/CMak
 
 %build
 CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -Dgoogletest_SOURCE_DIR=$(pwd)/googletest -Dmaxlibqt_SOURCE_DIR=$(pwd)/maxLibQt -DINSTALL_GTEST=OFF -DINSTALL_GMOCK=OFF"
+# Build shared libraries for simulator
+MAKEFLAGS="-O -j${RPM_BUILD_NCPUS}" tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" release
+# Clean slate? There is probaly nothing wrong reusing the configuration
+# left over from previous step, but be safe
+rm -f "$(pwd)/%{_vpath_builddir}/CMakeCache.txt" "$(pwd)/%{_vpath_builddir}/native/CMakeCache.txt"
 %cmake $CMAKE_OPTS -DPCB=X9D
-make -C %{_vpath_builddir} native-configure
-make -C %{_vpath_builddir} companion
-make -C %{_vpath_builddir} simulator
-tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" release
+%make_build -C %{_vpath_builddir} native-configure
+%make_build -C %{_vpath_builddir} companion
+%make_build -C %{_vpath_builddir} simulator
 
 %install
 %{cmake_install}/native
