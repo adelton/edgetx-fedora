@@ -16,9 +16,9 @@ jobs:
           fetch-depth: 0
       - name: Build source container image
         run: docker build -t localhost/edgetx-builder -f .github/Dockerfile .
-      - run: mkdir rpmbuild
+      - run: mkdir -p rpmbuild/SRPMS
       - name: Build the rpm
-        run: docker run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c 'rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec'
+        run: docker run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c '( rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec ) || ( cp *.src.rpm ~/rpmbuild/SRPMS/ && exit 1 )'
       - run: find rpmbuild/SRPMS rpmbuild/RPMS
       - run: |
           srpm_path=$( find rpmbuild/SRPMS -type f )
@@ -27,10 +27,12 @@ jobs:
           rpm_path=$( find rpmbuild/RPMS -type f | grep -v debug )
           echo "rpm_path=$rpm_path" >> $GITHUB_ENV
           echo "rpm_name=$( basename $rpm_path )" >> $GITHUB_ENV
+        if: always()
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.srpm_name }}
           path: ${{ env.srpm_path }}
+        if: always()
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.rpm_name }}
