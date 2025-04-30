@@ -37,6 +37,7 @@ OpenTX Companion transmitter support software is used for many different
 tasks like loading OpenTX firmware to the radio, backing up model
 settings, editing settings and running radio simulators.
 
+%global debug_package %{nil}
 %prep
 %autosetup -n edgetx-%{version} -p1
 ( cd radio/src/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -sv stb-* stb )
