@@ -9,21 +9,21 @@ To help with controlled upgrades between versions, separate branches
 contain content for individual minor versions of EdgeTX, and resulting
 yum/dnf repositories are also separate.
 
-## EdgeTX Companion 2.10
+## EdgeTX Companion 2.11
 
-Built from [branch edgetx-2.10](https://github.com/adelton/edgetx-fedora/tree/edgetx-2.10),
+Built from [branch edgetx-2.11](https://github.com/adelton/edgetx-fedora/tree/edgetx-2.11),
 rpms for contemporary Fedora versions are at
-https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.10/
+https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.11/
 
-[![Copr build status](https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.10/package/edgetx-companion/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.10/package/edgetx-companion/)
+[![Copr build status](https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.11/package/edgetx-companion/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.11/package/edgetx-companion/)
 
 ## Older versions
 
-Built from [branch edgetx-2.9](https://github.com/adelton/edgetx-fedora/tree/edgetx-2.9),
+Built from [branch edgetx-2.10](https://github.com/adelton/edgetx-fedora/tree/edgetx-2.10),
 rpms of older versions of EdgeTX are also available, at
-https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.9/
+https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.10/
 
-Similar for [branch edgetx-2.8](https://github.com/adelton/edgetx-fedora/tree/edgetx-2.8),
+Similar for [branch edgetx-2.9](https://github.com/adelton/edgetx-fedora/tree/edgetx-2.9),
 rpms got built to
-https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.8/
+https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.9/
 
