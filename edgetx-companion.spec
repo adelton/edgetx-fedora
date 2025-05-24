@@ -16,7 +16,8 @@ Source17: https://github.com/microsoft/uf2/archive/d03b585ed780ed51bb0d1e6e8cf23
 Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
-Patch5: build-simulator.sh.patch
+Patch5: edgetx-simulator-name.patch
+Patch6: build-simulator.sh.patch
 
 BuildRequires: cmake
 BuildRequires: make
