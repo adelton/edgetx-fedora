@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.11.1
+Version: 2.11.2
 Release: %autorelease
 License: GPLv2
 URL: https://edgetx.org/
@@ -92,6 +92,7 @@ rm -f "$(pwd)/%{_vpath_builddir}/CMakeCache.txt" "$(pwd)/%{_vpath_builddir}/nati
 %{_libdir}/edgetx-companion-211/libedgetx-nv14-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-pl18-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-pl18ev-simulator.so
+%{_libdir}/edgetx-companion-211/libedgetx-pl18u-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-pocket-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-st16-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-t8-simulator.so
