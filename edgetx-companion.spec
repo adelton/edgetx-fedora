@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.11.2
+Version: 2.11.3
 Release: %autorelease
 License: GPLv2
 URL: https://edgetx.org/
@@ -90,6 +90,7 @@ rm -f "$(pwd)/%{_vpath_builddir}/CMakeCache.txt" "$(pwd)/%{_vpath_builddir}/nati
 %{_libdir}/edgetx-companion-211/libedgetx-lr3pro-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-mt12-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-nv14-simulator.so
+%{_libdir}/edgetx-companion-211/libedgetx-pa01-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-pl18-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-pl18ev-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-pl18u-simulator.so
@@ -111,6 +112,7 @@ rm -f "$(pwd)/%{_vpath_builddir}/CMakeCache.txt" "$(pwd)/%{_vpath_builddir}/nati
 %{_libdir}/edgetx-companion-211/libedgetx-tx12-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-tx12mk2-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-tx16s-simulator.so
+%{_libdir}/edgetx-companion-211/libedgetx-v14-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-v16-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-x7-simulator.so
 %{_libdir}/edgetx-companion-211/libedgetx-x7access-simulator.so
