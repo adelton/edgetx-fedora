@@ -16,6 +16,7 @@ Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
 Patch5: build-simulator.sh.patch
+Patch7: edgetx-miniz.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -53,7 +54,7 @@ EOS
 chmod a+x bin/cmake
 
 sed -i 's/include(FetchGtest)/add_subdirectory(googletest)/' cmake/NativeTargets.cmake
-sed -i '/include(FetchMiniz)/d' companion/src/CMakeLists.txt
+sed -i 's/include(FetchMiniz)/find_package(miniz REQUIRED CONFIG)/' companion/src/CMakeLists.txt
 sed -i '/include(FetchYamlCpp)/d' companion/src/CMakeLists.txt
 sed -i 's/include(FetchMaxLibQt)/add_subdirectory(maxLibQt)/' companion/src/CMakeLists.txt
 

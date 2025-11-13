@@ -1,0 +1,24 @@
+diff --git a/companion/src/storage/labeled.h b/companion/src/storage/labeled.h
+--- a/companion/src/storage/labeled.h
++++ b/companion/src/storage/labeled.h
+@@ -21,7 +21,7 @@
+ #pragma once
+ 
+ #include "storage.h"
+-#include "miniz.h"
++#include <miniz/miniz.h>
+ 
+ #include <QtCore>
+ #include <list>
+diff --git a/companion/src/storage/minizinterface.h b/companion/src/storage/minizinterface.h
+--- a/companion/src/storage/minizinterface.h
++++ b/companion/src/storage/minizinterface.h
+@@ -21,7 +21,7 @@
+ 
+ #pragma once
+ 
+-#include "miniz.h"
++#include <miniz/miniz.h>
+ 
+ #include <QtCore>
+ #include <QString>
