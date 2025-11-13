@@ -1,0 +1,22 @@
+--- a/companion/src/storage/labeled.h
++++ b/companion/src/storage/labeled.h
+@@ -24,7 +24,7 @@
+ #include "storage.h"
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wunused-function"
+-#include "miniz.h"
++#include <miniz/miniz.h>
+ #pragma GCC diagnostic pop
+ 
+ #include <QtCore>
+--- a/companion/src/storage/minizinterface.h
++++ b/companion/src/storage/minizinterface.h
+@@ -23,7 +23,7 @@
+ 
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wunused-function"
+-#include "miniz.h"
++#include <miniz/miniz.h>
+ #pragma GCC diagnostic pop
+ 
+ #include <QtCore>
