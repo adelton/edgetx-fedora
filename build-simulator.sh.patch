@@ -1,45 +1,13 @@
 diff --git a/tools/build-companion.sh b/tools/build-companion.sh
 --- a/tools/build-companion.sh
 +++ b/tools/build-companion.sh
-@@ -7,64 +7,11 @@ set -x
- SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
- . "$SCRIPT_DIR/build-common.sh" 
+@@ -28,30 +28,8 @@ else
+     COMMON_OPTIONS="-DCMAKE_RULE_MESSAGES=OFF"
+ fi
  
--if [ "$(uname)" = "Darwin" ]; then
--  num_cpus=$(sysctl -n hw.ncpu)
--  : "${JOBS:=$num_cpus}"
--else
--  JOBS=3
--fi
--
--while [ $# -gt 0 ]
--do
--  case "$1" in
--    --jobs=*)
--      JOBS="${1#*=}";;
--    -j*)
--      JOBS="${1#*j}";;
--    -*)
--      echo >&2 "usage: $0 [-j<jobs>|--jobs=<jobs>] SRCDIR OUTDIR"
--      exit 1;;
--    *)
--      break;;   # terminate while loop
--  esac
--  shift
--done
--
- SRCDIR=$1
- OUTDIR=$2
- 
--COMMON_OPTIONS="-DGVARS=YES -DHELI=YES -DLUA=YES -Wno-dev -DCMAKE_BUILD_TYPE=Release"
+-COMMON_OPTIONS="${COMMON_OPTIONS} -DCMAKE_BUILD_TYPE=Release -DCMAKE_MESSAGE_LOG_LEVEL=WARNING -Wno-dev -DGVARS=YES -DHELI=YES -DLUA=YES"
 -if [ "$(uname)" = "Darwin" ]; then
 -    COMMON_OPTIONS="${COMMON_OPTIONS} -DCMAKE_OSX_DEPLOYMENT_TARGET='10.15'"
--elif [ "$(uname)" != "Linux" ]; then # Assume Windows and MSYS2
--    if [ "${MSYSTEM,,}" == "mingw32" ]; then # MSYS 32bit detected
--        COMMON_OPTIONS="${COMMON_OPTIONS} -DSDL2_LIBRARY_PATH=/mingw32/bin/"
--    else # fallback to 64bit
--        COMMON_OPTIONS="${COMMON_OPTIONS} -DSDL2_LIBRARY_PATH=/mingw64/bin/"
--    fi
 -fi
 -
 -# Generate EDGETX_VERSION_SUFFIX if not already set
@@ -60,36 +28,45 @@ diff --git a/tools/build-companion.sh b/tools/build-companion.sh
 -  fi
 -fi
 -
--rm -rf build
--mkdir build
--cd build
+-rm -rf build && mkdir build && cd build
 +COMMON_OPTIONS="$3"
 +export EDGETX_VERSION_SUFFIX="$4"
  
- declare -a simulator_plugins=(x9lite x9lites
-                               x7 x7access
-@@ -88,20 +35,9 @@ do
-         exit 1
-     fi
- 
--    rm -f CMakeCache.txt native/CMakeCache.txt
--    cmake ${BUILD_OPTIONS} "${SRCDIR}"
--    cmake --build . --target native-configure
--    cmake --build native -j"${JOBS}" --target libsimulator
-+    rm -f $OUTDIR/CMakeCache.txt $OUTDIR/native/CMakeCache.txt
-+    bin/cmake ${BUILD_OPTIONS} "${SRCDIR}"
-+    make -C "$OUTDIR" native-configure
-+    make -C "$OUTDIR" libsimulator
- done                              
- 
--cmake --build . --target native-configure
--if [ "$(uname)" = "Darwin" ]; then
--    cmake --build native -j"${JOBS}" --target package
--    cp native/*.dmg "${OUTDIR}"
--elif [ "$(uname)" = "Linux" ]; then
--    cmake --build native -j"${JOBS}" --target package
--    cp native/*.AppImage "${OUTDIR}"
--else
--    cmake --build native --target installer
--    cp native/companion/*.exe "${OUTDIR}"
--fi
+ # Function to output error logs (works in both GitHub Actions and terminal)
+ output_error_log() {
+@@ -101,29 +79,29 @@ run_pipeline() {
+     case "$pipeline_type" in
+         "plugin")
+             clean_build
+-            if ! execute_with_output "⚙️ Configuring" "cmake ${BUILD_OPTIONS} ${SRCDIR}" "$log_file" "$show_details"; then
++            if ! execute_with_output "⚙️ Configuring" "bin/cmake ${BUILD_OPTIONS} ${SRCDIR}" "$log_file" "$show_details"; then
+                 output_error_log "$log_file" "$context (Configuration)"
+                 return 1
+             fi
+-            if ! execute_with_output "🔧 Native config" "cmake_build_parallel . --target native-configure ${cmake_opts}" "$log_file" "$show_details"; then
++            if ! execute_with_output "🔧 Native config" "make -C $OUTDIR native-configure" "$log_file" "$show_details"; then
+                 output_error_log "$log_file" "$context (Native Configure)"
+                 return 1
+             fi
+-            if ! execute_with_output "📦 Building lib" "cmake_build_parallel native --target libsimulator ${cmake_opts}" "$log_file" "$show_details"; then
++            if ! execute_with_output "📦 Building lib" "make -C "$OUTDIR" libsimulator" "$log_file" "$show_details"; then
+                 output_error_log "$log_file" "$context (Library Build)"
+                 return 1
+             fi
+             ;;
+         "final")
+-            if ! execute_with_output "🔧 Final config" "cmake_build_parallel . --target native-configure ${cmake_opts}" "$log_file" "$show_details"; then
++            if ! execute_with_output "🔧 Final config" "make -C $OUTDIR native-configure" "$log_file" "$show_details"; then
+                 output_error_log "$log_file" "Final Configuration"
+                 return 1
+             fi
+-            if ! execute_with_output "📦 Building companion" "cmake_build_parallel native --target companion ${cmake_opts}" "$log_file" "$show_details"; then
++            if ! execute_with_output "📦 Building companion" "make -C $OUTDIR companion" "$log_file" "$show_details"; then
+                 output_error_log "$log_file" "$context (Companion Build)"
+                 return 1
+             fi
+-            if ! execute_with_output "📦 Packaging" "cmake_build_parallel native --target ${PACKAGE_TARGET}" "$log_file" "true"; then
++            if ! execute_with_output "📦 Packaging" "make -C $OUTDIR ${PACKAGE_TARGET}" "$log_file" "true"; then
+                 output_error_log "$log_file" "Final Packaging"
+                 return 1
+             fi
