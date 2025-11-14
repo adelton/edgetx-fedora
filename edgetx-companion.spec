@@ -8,9 +8,9 @@ License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
 Source12: https://github.com/nothings/stb/archive/5c205738c191bcb0abc65c4febfa9bd25ff35234.tar.gz#/stb-5c205738.tar.gz
-Source14: https://github.com/EdgeTX/lvgl/archive/15bc7db5e729fa85662be8964dd92a57d44fdd32.tar.gz#/lvgl-15bc7db5.tar.gz
+Source14: https://github.com/EdgeTX/lvgl/archive/19d397271e195320c32fd73eb132642aa4acf3ce.tar.gz#/lvgl-19d39727.tar.gz
 Source15: https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz#/googletest-1.14.0.tar.gz
-Source16: https://github.com/edgetx/maxLibQt/archive/b5418f76cc4891e09f4e21276175d39dbb130f66.tar.gz#/maxLibQt-b5418f76.tar.gz
+Source16: https://github.com/edgetx/maxLibQt/archive/ac1988ffd005cd15a8449b92150ce6c08574a4f1.tar.gz#/maxLibQt-ac1988ff.tar.gz
 Source17: https://github.com/microsoft/uf2/archive/d03b585ed780ed51bb0d1e6e8cf233aacb408305.tar.gz#/uf2-d03b585e.tar.gz
 
 Patch1: edgetx-cmake.patch
