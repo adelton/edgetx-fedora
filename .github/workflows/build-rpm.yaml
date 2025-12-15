@@ -4,26 +4,46 @@ name: EdgeTX Companion rpm
 on:
   push:
   pull_request:
+  schedule:
+    - cron: '23 2 1 * *'
   workflow_dispatch:
+    inputs:
+      fedora:
+        description: Fedora version
+        type: string
+        default: latest
 
 jobs:
-  build:
-    name: Build EdgeTX Companion rpm
+  init:
+    name: Select Fedora versions
     runs-on: ubuntu-latest
+    outputs:
+      fedora: ${{ steps.generate-matrix.outputs.fedora }}
+    steps:
+      - id: generate-matrix
+        run: |
+          if [ -n '${{ inputs.fedora }}' ] ; then
+            echo 'fedora=[ "${{ inputs.fedora }}" ]'
+          elif [ "${{ github.event_name }}" = 'schedule' ] ; then
+            echo 'fedora=[ "latest" ]'
+          else
+            echo 'fedora=[ "rawhide", "43", "42", "41" ]'
+          fi | tee -a $GITHUB_OUTPUT
+
+  build:
+    name: Build on Fedora
+    runs-on: ubuntu-latest
+    needs: [ init ]
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - registry.fedoraproject.org/fedora:rawhide
-          - registry.fedoraproject.org/fedora:43
-          - registry.fedoraproject.org/fedora:42
-          - registry.fedoraproject.org/fedora:41
+        fedora: ${{ fromJSON(needs.init.outputs.fedora ) }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Build source container image
-        run: podman build --from ${{ matrix.os }} -t localhost/edgetx-builder -f .github/Dockerfile .
+        run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} -t localhost/edgetx-builder -f .github/Dockerfile .
       - run: mkdir -p rpmbuild/SRPMS
       - name: Build the rpm
         run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c '( rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec ) || ( cp *.src.rpm ~/rpmbuild/SRPMS/ && exit 1 )'
