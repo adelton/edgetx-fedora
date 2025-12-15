@@ -18,7 +18,9 @@ Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
 Patch5: edgetx-simulator-name.patch
 Patch6: build-simulator.sh.patch
+%if 0%{?fedora} >= 43
 Patch7: edgetx-miniz.patch
+%endif
 
 BuildRequires: cmake
 BuildRequires: make
@@ -58,7 +60,11 @@ EOS
 chmod a+x bin/cmake
 
 sed -i 's/include(FetchGtest)/add_subdirectory(googletest)/' cmake/NativeTargets.cmake
+%if 0%{?fedora} >= 43
 sed -i 's/include(FetchMiniz)/find_package(miniz REQUIRED CONFIG)/' companion/src/CMakeLists.txt
+%else
+sed -i '/include(FetchMiniz)/d' companion/src/CMakeLists.txt
+%endif
 sed -i '/include(FetchYamlCpp)/d' companion/src/CMakeLists.txt
 sed -i 's/include(FetchMaxLibQt)/add_subdirectory(maxLibQt)/' companion/src/CMakeLists.txt
 
