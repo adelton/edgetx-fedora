@@ -10,15 +10,23 @@ jobs:
   build:
     name: Build EdgeTX Companion rpm
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - registry.fedoraproject.org/fedora:rawhide
+          - registry.fedoraproject.org/fedora:43
+          - registry.fedoraproject.org/fedora:42
+          - registry.fedoraproject.org/fedora:41
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Build source container image
-        run: docker build -t localhost/edgetx-builder -f .github/Dockerfile .
-      - run: mkdir rpmbuild
+        run: podman build --from ${{ matrix.os }} -t localhost/edgetx-builder -f .github/Dockerfile .
+      - run: mkdir -p rpmbuild/SRPMS
       - name: Build the rpm
-        run: docker run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c 'rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec'
+        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c '( rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec ) || ( cp *.src.rpm ~/rpmbuild/SRPMS/ && exit 1 )'
       - run: find rpmbuild/SRPMS rpmbuild/RPMS
       - run: |
           srpm_path=$( find rpmbuild/SRPMS -type f )
