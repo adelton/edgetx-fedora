@@ -45,21 +45,26 @@ jobs:
       - name: Build source container image
         run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} -t localhost/edgetx-builder -f .github/Dockerfile .
       - run: mkdir -p rpmbuild/SRPMS
-      - name: Build the rpm
-        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c '( rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec ) || ( cp *.src.rpm ~/rpmbuild/SRPMS/ && exit 1 )'
-      - run: find rpmbuild/SRPMS rpmbuild/RPMS
+      - name: Build the srpm
+        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c '( rpm -Uvh *.src.rpm && rpmbuild -bs ~/rpmbuild/SPECS/*.spec ) || ( cp *.src.rpm ~/rpmbuild/SRPMS/ && exit 1 )'
+      - run: find rpmbuild/SRPMS
       - run: |
           srpm_path=$( find rpmbuild/SRPMS -type f )
           echo "srpm_path=$srpm_path" >> $GITHUB_ENV
           echo "srpm_name=$( basename $srpm_path )" >> $GITHUB_ENV
-          rpm_path=$( find rpmbuild/RPMS -type f | grep -v debug )
-          echo "rpm_path=$rpm_path" >> $GITHUB_ENV
-          echo "rpm_name=$( basename $rpm_path )" >> $GITHUB_ENV
         if: always()
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.srpm_name }}
           path: ${{ env.srpm_path }}
+        if: always()
+      - name: Build the rpm
+        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c 'rpm -Uvh ~/rpmbuild/SRPMS/*.src.rpm && rpmbuild -bb ~/rpmbuild/SPECS/*.spec'
+      - run: find rpmbuild/RPMS
+      - run: |
+          rpm_path=$( find rpmbuild/RPMS -type f | grep -v debug )
+          echo "rpm_path=$rpm_path" >> $GITHUB_ENV
+          echo "rpm_name=$( basename $rpm_path )" >> $GITHUB_ENV
         if: always()
       - uses: actions/upload-artifact@v4
         with:
