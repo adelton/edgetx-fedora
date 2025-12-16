@@ -5,5 +5,5 @@ WORKDIR /src
 COPY edgetx-companion.spec *.patch .copr/Makefile /src
 COPY .git /src/.git
 RUN git reset --hard HEAD
-RUN make srpm
+RUN make srpm-pure
 RUN dnf builddep -y edgetx-companion.spec

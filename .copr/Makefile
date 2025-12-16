@@ -16,13 +16,19 @@ else
 	spec_file = $(spec)
 endif
 
-srpm:
+srpm-common:
 	for i in /usr/bin/rpmautospec /usr/bin/spectool ; do rpm -qf $$i || dnf install -y $$i ; done
 	mkdir -p $(outdir)/.sources
 	rpmautospec process-distgit $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
 	touch -r $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
 	cp -p $(spec_dir)*.patch $(outdir)/.sources/
 	cd $(outdir)/.sources && spectool -g $(spec_out)
+
+srpm-pure: srpm-common
 	cd $(outdir)/.sources && rpmbuild -D '_srcrpmdir $(outdir)' -D '_sourcedir $(outdir)/.sources' -bs $(outdir)/.sources/$(spec_out)
 	rm -rf $(outdir)/.sources
 
+srpm: srpm-common
+	# Workaround https://github.com/fedora-copr/copr/issues/4088
+	cd $(outdir)/.sources && rpmbuild -D 'fedora 43' -D '_srcrpmdir $(outdir)' -D '_sourcedir $(outdir)/.sources' -bs $(outdir)/.sources/$(spec_out)
+	rm -rf $(outdir)/.sources
