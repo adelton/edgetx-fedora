@@ -1,11 +1,11 @@
 diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 --- a/companion/src/CMakeLists.txt
 +++ b/companion/src/CMakeLists.txt
-@@ -600,56 +600,4 @@ if(APPLE)
-   set(CPACK_PACKAGE_FILE_NAME "edgetx-${CPACK_PACKAGE_NAME_LOWERCASE}-${VERSION}")
- endif(APPLE)
+@@ -569,56 +569,6 @@ elseif(APPLE)
+       file(RENAME \"\${app_dir}\" \"\${CMAKE_INSTALL_PREFIX}/${COMPANION_OSX_APP_BUNDLE_NAME}.app\")
+   " COMPONENT Runtime)
  
--if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+-else()
 -  set(LINUXDEPLOY_APPIMAGE "linuxdeploy-x86_64.AppImage")
 -  set(LINUXDEPLOY_PLUGIN_QT "linuxdeploy-plugin-qt-x86_64.AppImage")
 -  set(LINUXDEPLOY_URL "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous")
@@ -13,7 +13,7 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 -  set(LINUXDEPLOY_DIRECTORY "${CMAKE_BINARY_DIR}/linuxdeploy")
 -  set(LINUXDEPLOY_APP "${LINUXDEPLOY_DIRECTORY}/usr/bin/linuxdeploy")
 -
--  if (NOT EXISTS "${LINUXDEPLOY_DIRECTORY}")
+-  if(NOT EXISTS "${LINUXDEPLOY_DIRECTORY}")
 -    message(STATUS "Downloading linuxdeploy and plugins...")
 -
 -    file(DOWNLOAD "${LINUXDEPLOY_URL}/${LINUXDEPLOY_APPIMAGE}" "${CMAKE_BINARY_DIR}/${LINUXDEPLOY_APPIMAGE}")
@@ -45,18 +45,16 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 -      WORKING_DIRECTORY "${CMAKE_BINARY_DIR}")
 -
 -    # test installation
--    #execute_process(
--    #  COMMAND ${LINUXDEPLOY_APP} --list-plugins
--    #  WORKING_DIRECTORY "${CMAKE_BINARY_DIR}")
+-    execute_process(
+-      COMMAND ${LINUXDEPLOY_APP} --list-plugins
+-      WORKING_DIRECTORY "${CMAKE_BINARY_DIR}")
 -  endif()
 -
+-  list(APPEND CPACK_GENERATOR "External")
 -  set(CPACK_PACKAGE_DIRECTORY "${CMAKE_BINARY_DIR}")
--  set(CPACK_GENERATOR "External")
--
--  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CPackLinuxDeploy.cmake.in "${CMAKE_BINARY_DIR}/CPackExternal.cmake" @ONLY)
+-  set(APPIMAGE_DIR "${CPACK_PACKAGE_DIRECTORY}/_CPack_Packages/Linux/External/AppImage")
+-  configure_file("${COMPANION_TARGETS_DIR}/CPackLinuxDeploy.cmake.in" "${CMAKE_BINARY_DIR}/CPackExternal.cmake" @ONLY)
 -  set(CPACK_EXTERNAL_PACKAGE_SCRIPT "${CMAKE_BINARY_DIR}/CPackExternal.cmake")
--endif()
--
--include(CPack)
-\ No newline at end of file
-+include(CPack)
+ endif()
+ 
+ include(CPack)
