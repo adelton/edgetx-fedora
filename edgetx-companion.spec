@@ -2,21 +2,20 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.11.4
-Release: %autorelease
+Version: 2.12.0
+Release: 0.rc2.1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
-Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
+Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc2.tar.gz#/edgetx-%{version}.tar.gz
 Source12: https://github.com/nothings/stb/archive/5c205738c191bcb0abc65c4febfa9bd25ff35234.tar.gz#/stb-5c205738.tar.gz
-Source14: https://github.com/EdgeTX/lvgl/archive/19d397271e195320c32fd73eb132642aa4acf3ce.tar.gz#/lvgl-19d39727.tar.gz
+Source14: https://github.com/EdgeTX/lvgl/archive/5f129c540ec43a4e5aebff9f77b3688b57a78063.tar.gz#/lvgl-5f129c54.tar.gz
 Source15: https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz#/googletest-1.14.0.tar.gz
-Source16: https://github.com/edgetx/maxLibQt/archive/ac1988ffd005cd15a8449b92150ce6c08574a4f1.tar.gz#/maxLibQt-ac1988ff.tar.gz
+Source16: https://github.com/edgetx/maxLibQt/archive/7e433da60d3f2e975d46afc91804a88029cd1b78.tar.gz#/maxLibQt-7e433da6.tar.gz
 Source17: https://github.com/microsoft/uf2/archive/d03b585ed780ed51bb0d1e6e8cf233aacb408305.tar.gz#/uf2-d03b585e.tar.gz
 
 Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
-Patch5: edgetx-simulator-name.patch
 Patch6: build-simulator.sh.patch
 %if 0%{?fedora} >= 43
 Patch7: edgetx-miniz.patch
@@ -26,9 +25,10 @@ BuildRequires: cmake
 BuildRequires: make
 BuildRequires: gcc-c++
 BuildRequires: clang-devel
-BuildRequires: qt5-qttools-devel, qt5-qtsvg-devel, qt5-qtmultimedia-devel, qt5-qtserialport-devel
+BuildRequires: qt6-qttools-devel, qt6-qtsvg-devel, qt6-qtmultimedia-devel, qt6-qtserialport-devel
 BuildRequires: fox-devel
 BuildRequires: SDL2-devel
+BuildRequires: openssl-devel
 BuildRequires: python3-pillow python3-lz4 python3-clang
 BuildRequires: libusb1-devel
 BuildRequires: yaml-cpp-devel
@@ -43,7 +43,7 @@ settings, editing settings and running radio simulators.
 
 %global debug_package %{nil}
 %prep
-%autosetup -n edgetx-%{version} -p1
+%autosetup -n edgetx-%{version}-rc2 -p1
 ( cd radio/src/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -sv stb-* stb )
 ( cd radio/src/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -sv lvgl-* lvgl )
 ( cd radio/src/thirdparty && tar xvzf %SOURCE17 && rmdir uf2 && ln -sv uf2-* uf2 )
