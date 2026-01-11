@@ -1,18 +1,18 @@
 diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 --- a/companion/src/CMakeLists.txt
 +++ b/companion/src/CMakeLists.txt
-@@ -2,8 +2,8 @@
+@@ -6,8 +6,8 @@ set(SIMULATOR_NAME "simulator")
  
  if(${CMAKE_SYSTEM_NAME} MATCHES "(Linux|FreeBSD)")
-   set(APP_NAME_SUFFIX ${VERSION_MAJOR}${VERSION_MINOR})
--  set(COMPANION_NAME "companion${APP_NAME_SUFFIX}")
--  set(SIMULATOR_NAME "simulator${APP_NAME_SUFFIX}")
+   set(APP_NAME_SUFFIX "${VERSION_MAJOR}${VERSION_MINOR}")
+-  set(COMPANION_NAME "${COMPANION_NAME}${APP_NAME_SUFFIX}")
+-  set(SIMULATOR_NAME "${SIMULATOR_NAME}${APP_NAME_SUFFIX}")
 +  set(COMPANION_NAME "edgetx-companion")
 +  set(SIMULATOR_NAME "edgetx-simulator")
    # by default cmake sets CMAKE_INSTALL_PREFIX to /usr/local however linuxdeploy works best with '/usr' as base directory
    if (${CMAKE_INSTALL_PREFIX} MATCHES "/usr/local")
      set(CMAKE_INSTALL_PREFIX "/usr")
-@@ -11,7 +11,7 @@
+@@ -15,7 +15,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "(Linux|FreeBSD)")
    if (NOT ${SIMULATOR_INSTALL_PREFIX} STREQUAL "")
      set(SIMULATOR_LIB_PATH ${SIMULATOR_INSTALL_PREFIX}/lib/${COMPANION_NAME})
    else()
@@ -20,8 +20,8 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 +    set(SIMULATOR_LIB_PATH ${LIB_INSTALL_DIR}/${COMPANION_NAME})
    endif()
    message(STATUS "Simulators library search path: " ${SIMULATOR_LIB_PATH})
- else()
-@@ -201,8 +201,8 @@ set(CPN_COMMON_LIB common)
+ endif()
+@@ -194,8 +194,8 @@ set(CPN_COMMON_LIB common)
  
  ############# Supporting libraries ###############
  
@@ -29,53 +29,39 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 -include(FetchYamlCpp)
 +find_package(miniz CONFIG)
 +find_package(yaml-cpp REQUIRED CONFIG)
- 
  include(FetchMaxLibQt)
  
-@@ -355,32 +355,25 @@
-   message(STATUS "install " ${CMAKE_BINARY_DIR} " to " ${CMAKE_INSTALL_PREFIX})
-   install(TARGETS ${COMPANION_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-   install(TARGETS ${SIMULATOR_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
--  install(DIRECTORY ${CMAKE_BINARY_DIR}/plugins/ DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/${COMPANION_NAME})
--  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications RENAME companion${APP_NAME_SUFFIX}.desktop)
--  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/simulator.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications RENAME simulator${APP_NAME_SUFFIX}.desktop)
--  install(FILES images/linuxicons/16x16/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/16x16/apps RENAME companion${APP_NAME_SUFFIX}.png)
--  install(FILES images/linuxicons/22x22/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/apps RENAME companion${APP_NAME_SUFFIX}.png)
--  install(FILES images/linuxicons/24x24/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/apps RENAME companion${APP_NAME_SUFFIX}.png)
--  install(FILES images/linuxicons/32x32/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/32x32/apps RENAME companion${APP_NAME_SUFFIX}.png)
--  install(FILES images/linuxicons/48x48/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/48x48/apps RENAME companion${APP_NAME_SUFFIX}.png)
--  install(FILES images/linuxicons/128x128/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/128x128/apps RENAME companion${APP_NAME_SUFFIX}.png)
--  install(FILES images/linuxicons/256x256/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/256x256/apps RENAME companion${APP_NAME_SUFFIX}.png)
--  install(FILES images/linuxicons/512x512/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/512x512/apps RENAME companion${APP_NAME_SUFFIX}.png)
--  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps RENAME companion${APP_NAME_SUFFIX}.svg)
--  install(FILES ../targets/linux/45-companion-taranis.rules DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/udev/rules.d RENAME 45-companion${APP_NAME_SUFFIX}-taranis.rules)
--  install(FILES ../targets/linux/45-usbasp.rules DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/udev/rules.d RENAME 45-companion${APP_NAME_SUFFIX}-usbasp.rules)
-+  install(DIRECTORY ${CMAKE_BINARY_DIR}/plugins/ DESTINATION ${SIMULATOR_LIB_PATH})
-+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/companion.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications RENAME ${COMPANION_NAME}.desktop)
-+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/simulator.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications RENAME ${SIMULATOR_NAME}.desktop)
-+  install(FILES images/linuxicons/16x16/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/16x16/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/22x22/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/24x24/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/32x32/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/32x32/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/48x48/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/48x48/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/128x128/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/128x128/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/256x256/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/256x256/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/512x512/companion.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/512x512/apps RENAME ${COMPANION_NAME}.png)
-+  install(FILES images/linuxicons/scalable/companion.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps RENAME ${COMPANION_NAME}.svg)
-+  install(FILES ../targets/linux/45-companion-taranis.rules DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/udev/rules.d RENAME 45-${COMPANION_NAME}-taranis.rules)
-+  install(FILES ../targets/linux/45-usbasp.rules DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/udev/rules.d RENAME 45-${COMPANION_NAME}-usbasp.rules)
+ add_subdirectory(datamodels)
+@@ -328,13 +328,15 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+   # configure and set variables used by package script
+   set(COMPANION_DESKTOP_FILE ${CMAKE_CURRENT_BINARY_DIR}/${COMPANION_NAME}.desktop)
+   configure_file(${COMPANION_TARGETS_DIR}/companion.desktop.in ${COMPANION_DESKTOP_FILE} @ONLY)
++  install(FILES ${COMPANION_DESKTOP_FILE} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
  
-   if(LIBSSL1_FOUND)
-     install(DIRECTORY ${LIBSSL1_LIBRARY_DIR}/ DESTINATION ${CMAKE_INSTALL_PREFIX}/lib FILES_MATCHING PATTERN "libcrypto.so.*" PATTERN "libssl.so.*")
-   endif()
+   set(SIMULATOR_DESKTOP_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SIMULATOR_NAME}.desktop)
+   configure_file(${COMPANION_TARGETS_DIR}/simulator.desktop.in ${SIMULATOR_DESKTOP_FILE} @ONLY)
++  install(FILES ${SIMULATOR_DESKTOP_FILE} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
  
--  if(LIBUSB1_FOUND)
--    install(DIRECTORY ${LIBUSB1_LIBRARY_DIR}/ DESTINATION ${CMAKE_INSTALL_PREFIX}/lib FILES_MATCHING PATTERN "libusb-1.0.so*")
--    if(DFU_UTIL_FOUND)
--      install(FILES "${DFU_UTIL_PATH}" DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
--    endif()
+   # libsim*.so files
+   install(DIRECTORY ${CMAKE_BINARY_DIR}/plugins/
+-          DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/${COMPANION_NAME})
++          DESTINATION ${SIMULATOR_LIB_PATH})
+ 
+   # application icons
+   set(icon_sizes "16;22;24;32;48;64;128;256;512")
+@@ -351,15 +353,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+           DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps"
+           RENAME "${COMPANION_NAME}.svg")
+ 
+-  if(OPENSSL_FOUND)
+-    get_filename_component(OPENSSL_SSL_LIBRARY_DIR ${OPENSSL_SSL_LIBRARY} DIRECTORY)
+-    install(DIRECTORY ${OPENSSL_SSL_LIBRARY_DIR}/
+-            DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+-            FILES_MATCHING
+-              PATTERN "libcrypto.so.*"
+-              PATTERN "libssl.so.*")
 -  endif()
 -
-   # Linux specific code
    set(OperatingSystem "Linux")
    # Shortcut target
+   add_custom_target(companion DEPENDS ${COMPANION_NAME})
