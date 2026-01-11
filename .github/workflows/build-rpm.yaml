@@ -27,7 +27,7 @@ jobs:
           elif [ "${{ github.event_name }}" = 'schedule' ] ; then
             echo 'fedora=[ "latest" ]'
           else
-            echo 'fedora=[ "rawhide", "43", "42", "41" ]'
+            echo 'fedora=[ "rawhide", "43", "42" ]'
           fi | tee -a $GITHUB_OUTPUT
 
   build:
