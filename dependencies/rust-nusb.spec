@@ -14,6 +14,7 @@ URL:            https://crates.io/crates/nusb
 Source:         %{crates_source}
 # Automatically generated patch to strip dependencies and normalize metadata
 Patch:          nusb-fix-metadata-auto.patch
+Patch2:         nusb-linux-raw-sys-depencency.patch
 
 BuildRequires:  cargo-rpm-macros >= 24
 
