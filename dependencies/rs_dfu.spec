@@ -4,15 +4,13 @@
 Name:           rs_dfu
 Version:        0.7.0
 Release:        %autorelease
-Summary:        # FIXME
+Summary:        USB Device Firmware Upgrade (DFU) implementation based on nusb crate
 
-SourceLicense:  MIT
-# FIXME: paste output of %%cargo_license_summary here
-License:        # FIXME
+License:        MIT
 # LICENSE.dependencies contains a full license breakdown
 
-URL:            # FIXME
-Source:         # FIXME
+URL:            https://github.com/EdgeTX/rs-dfu
+Source:         https://github.com/EdgeTX/rs-dfu/archive/refs/tags/v%{version}.tar.gz#/rs-dfu-%{version}.tar.gz
 
 BuildRequires:  cargo-rpm-macros >= 24
 
