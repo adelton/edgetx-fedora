@@ -19,6 +19,12 @@ BuildRequires:  cargo-rpm-macros >= 24
 
 %description %{_description}
 
+%package devel
+Summary:	Development files for %{name}
+%description devel
+The %{name}-devel package contains header file and static library
+for developing applications that use %{name}.
+
 %prep
 %autosetup -n rs-dfu-%{version} -p1
 %cargo_prep
@@ -27,12 +33,19 @@ BuildRequires:  cargo-rpm-macros >= 24
 %cargo_generate_buildrequires
 
 %build
-%cargo_build
+%{cargo_build} --workspace
 %{cargo_license_summary}
 %{cargo_license} > LICENSE.dependencies
 
 %install
-%cargo_install
+install -d %{buildroot}%{_libdir}
+install ./target/rpm/lib*.a %{buildroot}%{_libdir}
+install -d %{buildroot}%{_bindir}
+install ./target/rpm/rdfu %{buildroot}%{_bindir}
+install -d %{buildroot}%{_includedir}
+install ./target/cxxbridge/rs-dfu/src/lib.rs.h %{buildroot}%{_includedir}/%{name}.h
+install -d %{buildroot}%{_libdir}/cmake
+install ./cmake/rs_dfu-config.cmake %{buildroot}%{_libdir}/cmake
 
 %if %{with check}
 %check
@@ -44,6 +57,11 @@ BuildRequires:  cargo-rpm-macros >= 24
 %license LICENSE.dependencies
 %doc README.md
 %{_bindir}/rdfu
+
+%files devel
+%{_includedir}/%{name}.h
+%{_libdir}/lib%{name}.a
+%{_libdir}/cmake/%{name}-config.cmake
 
 %changelog
 %autochangelog
