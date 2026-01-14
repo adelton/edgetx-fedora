@@ -14,6 +14,7 @@ RUN make -f /.copr/Makefile -C /src spec=${PACKAGE}.spec outdir=$( echo ~/rpmbui
 WORKDIR /root/rpmbuild/RPMS/SRPMS
 RUN rpm -qlp ${PACKAGE}-*.src.rpm
 RUN rpm -Uvh ${PACKAGE}-*.src.rpm
+RUN if [ -d /root/rpmbuild/RPMS/repodata ] ; then ( echo '[edgetx-build-dependencies]' ; echo 'baseurl=file:/root/rpmbuild/RPMS' ; echo gpgcheck=0 ) > /etc/yum.repos.d/edgetx-build-dependencies.repo ; fi
 RUN dnf builddep --setopt=install_weak_deps=False -y ~/rpmbuild/SPECS/${PACKAGE}-*.spec
 RUN rpmbuild -br ~/rpmbuild/SPECS/${PACKAGE}-*.spec || true
 RUN dnf builddep --setopt=install_weak_deps=False -y ~/rpmbuild/SRPMS/${PACKAGE}-*.buildreqs.nosrc.rpm

@@ -55,6 +55,11 @@ jobs:
         with:
           name: rust-nonempty-rpms-${{ steps.fedora-version.outputs.VERSION_ID }}
           path: dependencies/rpms/**/rust-nonempty*.rpm
+      - run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} --security-opt label=disable -v $(pwd)/dependencies/rpms:/root/rpmbuild/RPMS --build-arg=PACKAGE=rs_dfu -f dependencies/Dockerfile .
+      - uses: actions/upload-artifact@v6
+        with:
+          name: rs_dfu-rpms-${{ steps.fedora-version.outputs.VERSION_ID }}
+          path: dependencies/rpms/**/rs_dfu*.rpm
       - name: Build source container image
         run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} -t localhost/edgetx-builder -f .github/Dockerfile .
       - run: mkdir -p rpmbuild/SRPMS
