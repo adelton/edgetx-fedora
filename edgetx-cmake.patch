@@ -21,21 +21,14 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
    endif()
    message(STATUS "Simulators library search path: " ${SIMULATOR_LIB_PATH})
  else()
-@@ -201,8 +201,15 @@ set(CPN_COMMON_LIB common)
+@@ -201,8 +201,8 @@ set(CPN_COMMON_LIB common)
  
  ############# Supporting libraries ###############
  
 -include(FetchMiniz)
 -include(FetchYamlCpp)
 +find_package(miniz CONFIG)
-+if(NOT miniz_FOUND)
-+  include(FetchMiniz)
-+endif()
-+
 +find_package(yaml-cpp REQUIRED CONFIG)
-+if(NOT yaml-cpp_FOUND)
-+  include(FetchYamlCpp)
-+endif()
  
  include(FetchMaxLibQt)
  
