@@ -21,6 +21,17 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
    endif()
    message(STATUS "Simulators library search path: " ${SIMULATOR_LIB_PATH})
  else()
+@@ -201,8 +201,8 @@ set(CPN_COMMON_LIB common)
+ 
+ ############# Supporting libraries ###############
+ 
+-include(FetchMiniz)
+-include(FetchYamlCpp)
++find_package(miniz REQUIRED CONFIG)
++find_package(yaml-cpp REQUIRED CONFIG)
+ 
+ include(FetchMaxLibQt)
+ 
 @@ -355,32 +355,25 @@
    message(STATUS "install " ${CMAKE_BINARY_DIR} " to " ${CMAKE_INSTALL_PREFIX})
    install(TARGETS ${COMPANION_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
