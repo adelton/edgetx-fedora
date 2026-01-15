@@ -19,6 +19,7 @@ Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
 Patch6: build-simulator.sh.patch
 Patch7: edgetx-miniz.patch
+Patch8: edgetx-rs_dfu.patch
 
 BuildRequires: cmake
 BuildRequires: make
@@ -32,6 +33,7 @@ BuildRequires: python3-pillow python3-lz4 python3-clang
 BuildRequires: yaml-cpp-devel
 BuildRequires: miniz-devel
 BuildRequires: python3-jinja2
+BuildRequires: rs_dfu-devel
 
 %description
 OpenTX Companion transmitter support software is used for many different
