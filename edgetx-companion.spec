@@ -60,13 +60,6 @@ set -x
 EOS
 chmod a+x bin/cmake
 
-%if 0%{?fedora} >= 43
-sed -i 's/include(FetchMiniz)/find_package(miniz REQUIRED CONFIG)/' companion/src/CMakeLists.txt
-%else
-sed -i '/include(FetchMiniz)/d' companion/src/CMakeLists.txt
-%endif
-sed -i '/include(FetchYamlCpp)/d' companion/src/CMakeLists.txt
-
 %build
 CMAKE_OPTS="-DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DINSTALL_GTEST=OFF -DINSTALL_GMOCK=OFF -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=$(pwd)/deps/googletest -DFETCHCONTENT_SOURCE_DIR_MAXLIBQT=$(pwd)/deps/maxLibQt"
 # Build shared libraries for simulator
