@@ -27,7 +27,7 @@ diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
  
 -include(FetchMiniz)
 -include(FetchYamlCpp)
-+find_package(miniz REQUIRED CONFIG)
++find_package(miniz CONFIG)
 +find_package(yaml-cpp REQUIRED CONFIG)
  
  include(FetchMaxLibQt)
