@@ -66,10 +66,9 @@ sed -i 's/include(FetchMiniz)/find_package(miniz REQUIRED CONFIG)/' companion/sr
 sed -i '/include(FetchMiniz)/d' companion/src/CMakeLists.txt
 %endif
 sed -i '/include(FetchYamlCpp)/d' companion/src/CMakeLists.txt
-sed -i 's/include(FetchMaxLibQt)/add_subdirectory(maxLibQt)/' companion/src/CMakeLists.txt
 
 %build
-CMAKE_OPTS="-DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -Dgoogletest_SOURCE_DIR=$(pwd)/googletest -Dmaxlibqt_SOURCE_DIR=$(pwd)/maxLibQt -DINSTALL_GTEST=OFF -DINSTALL_GMOCK=OFF"
+CMAKE_OPTS="-DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -Dgoogletest_SOURCE_DIR=$(pwd)/googletest -DINSTALL_GTEST=OFF -DINSTALL_GMOCK=OFF -DFETCHCONTENT_SOURCE_DIR_MAXLIBQT=$(pwd)/companion/src/maxLibQt"
 # Build shared libraries for simulator
 MAKEFLAGS="-O -j${RPM_BUILD_NCPUS}" tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" release
 # Clean slate? There is probaly nothing wrong reusing the configuration
