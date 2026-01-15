@@ -61,7 +61,7 @@ jobs:
           name: rs_dfu-rpms-${{ steps.fedora-version.outputs.VERSION_ID }}
           path: dependencies/rpms/**/rs_dfu*.rpm
       - name: Build source container image
-        run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} -t localhost/edgetx-builder -f .github/Dockerfile .
+        run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} --security-opt label=disable -v $(pwd)/dependencies/rpms:/src/dependencies/RPMS -t localhost/edgetx-builder -f .github/Dockerfile .
       - run: mkdir -p rpmbuild/SRPMS
       - name: Build the srpm
         run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild:Z --network=none localhost/edgetx-builder bash -c '( rpm -Uvh *.src.rpm && rpmbuild -bs ~/rpmbuild/SPECS/*.spec ) || ( cp *.src.rpm ~/rpmbuild/SRPMS/ && exit 1 )'
