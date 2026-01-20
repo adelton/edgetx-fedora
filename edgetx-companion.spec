@@ -44,11 +44,12 @@ settings, editing settings and running radio simulators.
 %global debug_package %{nil}
 %prep
 %autosetup -n edgetx-%{version} -p1
+mkdir deps
 ( cd radio/src/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -sv stb-* stb )
 ( cd radio/src/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -sv lvgl-* lvgl )
 ( cd radio/src/thirdparty && tar xvzf %SOURCE17 && rmdir uf2 && ln -sv uf2-* uf2 )
-tar xvzf %SOURCE15 && ln -sv googletest-* googletest
-( cd companion/src && tar xvzf %SOURCE16 && ln -sv maxLibQt-* maxLibQt )
+( cd deps && tar xvzf %SOURCE15 && ln -sv googletest-* googletest )
+( cd deps && tar xvzf %SOURCE16 && ln -sv maxLibQt-* maxLibQt )
 
 %set_build_flags
 mkdir bin
@@ -67,7 +68,7 @@ sed -i '/include(FetchMiniz)/d' companion/src/CMakeLists.txt
 sed -i '/include(FetchYamlCpp)/d' companion/src/CMakeLists.txt
 
 %build
-CMAKE_OPTS="-DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DINSTALL_GTEST=OFF -DINSTALL_GMOCK=OFF -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=$(pwd)/googletest -DFETCHCONTENT_SOURCE_DIR_MAXLIBQT=$(pwd)/companion/src/maxLibQt"
+CMAKE_OPTS="-DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DINSTALL_GTEST=OFF -DINSTALL_GMOCK=OFF -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=$(pwd)/deps/googletest -DFETCHCONTENT_SOURCE_DIR_MAXLIBQT=$(pwd)/deps/maxLibQt"
 # Build shared libraries for simulator
 MAKEFLAGS="-O -j${RPM_BUILD_NCPUS}" tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" release
 # Clean slate? There is probaly nothing wrong reusing the configuration
