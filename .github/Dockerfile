@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:42
+FROM registry.fedoraproject.org/fedora:43
 RUN dnf install -y rpm-build 'dnf-command(builddep)' make
 RUN mkdir /src
 WORKDIR /src
