@@ -3,13 +3,14 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.9.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
 Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
 Source12: https://github.com/nothings/stb/archive/7cce4c3ad9a147c67258c5966f676d8436140939.tar.gz#/stb-7cce4c3a.tar.gz
 Source13: https://github.com/jbeder/yaml-cpp/archive/1b50109f7bea60bd382d8ea7befce3d2bd67da5f.tar.gz#/yaml-cpp-1b50109f.tar.gz
 Source14: https://github.com/EdgeTX/lvgl/archive/9a414b1d48d2893133b6038ec80d59fb157aade4.tar.gz#/lvgl-9a414b1d.tar.gz
+Source15: yaml-cpp.patch
 Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
@@ -35,7 +36,7 @@ settings, editing settings and running radio simulators.
 %autosetup -n edgetx-%{version} -p1
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -s stb-* stb )
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
-( cd companion/src/thirdparty && tar xvzf %SOURCE13 && rmdir yaml-cpp && ln -s yaml-cpp-* yaml-cpp )
+( cd companion/src/thirdparty && tar xvzf %SOURCE13 && rmdir yaml-cpp && ln -s yaml-cpp-* yaml-cpp && cd yaml-cpp && patch -p1 < %SOURCE15 )
 
 %set_build_flags
 mkdir bin
