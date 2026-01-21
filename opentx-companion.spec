@@ -9,6 +9,7 @@ URL: http://www.open-tx.org
 Source0: https://github.com/opentx/opentx/archive/release/%{version}.tar.gz#/opentx-%{version}.tar.gz
 Source1: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash4.lbm
 Source2: https://github.com/MikeBland/OpenRcBootloader/releases/download/V1.9/bootflash8.lbm
+Source3: https://github.com/google/googletest/archive/refs/tags/release-1.8.1.tar.gz#/googletest-1.8.1.tar.gz
 Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
 Patch3: opentx-OpenRcBootloader-local.patch
@@ -22,7 +23,6 @@ BuildRequires: SDL-devel
 BuildRequires: arm-none-eabi-gcc-cs-c++
 BuildRequires: arm-none-eabi-newlib
 BuildRequires: python3-pillow
-BuildRequires: llvm-googletest
 Requires: dfu-util
 
 %description
@@ -34,6 +34,7 @@ settings, editing settings and running radio simulators.
 %autosetup -n opentx-release-%{version} -p1
 mkdir -p %{_vpath_builddir}/radio/src/
 cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
+tar xvzf %SOURCE3
 
 %set_build_flags
 mkdir bin
@@ -51,7 +52,7 @@ sed '1,/^cd build/d;/^make.*package/,$d;s%^cmake%bin/&%;s#^make .* libsimulator#
 chmod a+x bin/*
 
 %build
-CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=%{_datarootdir}/llvm/src/utils/unittest/googletest"
+CMAKE_OPTS="-DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DFRSKY_STICKS=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS:BOOL=OFF -DGTEST_ROOT=$(pwd)/googletest-release-1.8.1/googletest"
 %cmake $CMAKE_OPTS
 %cmake_build --target opentx-companion
 %cmake_build --target opentx-simulator

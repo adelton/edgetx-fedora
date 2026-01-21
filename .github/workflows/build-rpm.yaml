@@ -16,7 +16,7 @@ jobs:
         run: docker build -t localhost/opentx-builder -f .github/Dockerfile .
       - run: mkdir rpmbuild
       - name: Build the rpm
-        run: docker run --rm --name opentx-builder -v $(pwd)/rpmbuild:/root/rpmbuild localhost/opentx-builder bash -c 'rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec'
+        run: docker run --rm --name opentx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/opentx-builder bash -c 'rpm -Uvh *.src.rpm && rpmbuild -ba ~/rpmbuild/SPECS/*.spec'
       - run: find rpmbuild/SRPMS rpmbuild/RPMS
       - run: |
           srpm_path=$( find rpmbuild/SRPMS -type f )
