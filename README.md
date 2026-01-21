@@ -1,5 +1,5 @@
 
-# EdgeTX Compantion Fedora rpms
+# EdgeTX Companion Fedora rpms
 
 This repository contains [.spec file](edgetx-companion.spec) and patches
 to build [EdgeTX Companion](https://edgetx.org/) from
