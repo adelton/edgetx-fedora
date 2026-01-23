@@ -1,27 +1,17 @@
 
-PACKAGE := edgetx-companion
-
+spec := $(shell ls *.spec | head -1)
 outdir := $(CURDIR)
-spec := $(PACKAGE).spec
 
-VERSION := $(shell rpm -q --qf '%{version}\n' --specfile $(PACKAGE).spec 2> /dev/null | head -1)
-spec_out = $(PACKAGE)-$(VERSION).spec
-
-spec_dir := ./
-ifeq ($(shell test -d $(spec) && echo true),true)
-	spec_dir = $(spec)/
-	spec_file = $(PACKAGE).spec
-else
-	spec_dir = $(dir $(spec))
-	spec_file = $(spec)
-endif
+PACKAGE := $(shell rpm -q --qf '%{name}\n' --specfile $(spec) 2> /dev/null | head -1)
+VERSION := $(shell rpm -q --qf '%{version}\n' --specfile $(spec) 2> /dev/null | head -1)
+spec_out := $(PACKAGE)-$(VERSION).spec
 
 srpm-common:
 	for i in /usr/bin/rpmautospec /usr/bin/spectool ; do rpm -qf $$i || dnf install --setopt=install_weak_deps=False -y $$i ; done
 	mkdir -p $(outdir)/.sources
-	rpmautospec process-distgit $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
-	touch -r $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
-	cp -p $(spec_dir)*.patch $(outdir)/.sources/
+	rpmautospec process-distgit $(spec) $(outdir)/.sources/$(spec_out)
+	touch -r $(spec) $(outdir)/.sources/$(spec_out)
+	cp -p *.patch $(outdir)/.sources/
 	cd $(outdir)/.sources && spectool -g $(spec_out)
 
 srpm-pure: srpm-common
