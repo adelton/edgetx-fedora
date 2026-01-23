@@ -13,7 +13,7 @@ License:        Apache-2.0 OR MIT
 URL:            https://crates.io/crates/nusb
 Source:         %{crates_source}
 # Automatically generated patch to strip dependencies and normalize metadata
-Patch:          nusb-fix-metadata-auto.diff
+Patch:          nusb-fix-metadata-auto.patch
 
 BuildRequires:  cargo-rpm-macros >= 24
 
