@@ -11,6 +11,7 @@ License:        MIT
 
 URL:            https://github.com/EdgeTX/rs-dfu
 Source:         https://github.com/EdgeTX/rs-dfu/archive/refs/tags/v%{version}.tar.gz#/rs-dfu-%{version}.tar.gz
+Patch1:         rs_dfu-cmake.patch
 
 BuildRequires:  cargo-rpm-macros >= 24
 
