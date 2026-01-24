@@ -17,7 +17,7 @@ else
 endif
 
 srpm-common:
-	for i in /usr/bin/rpmautospec /usr/bin/spectool ; do rpm -qf $$i || dnf install -y $$i ; done
+	for i in /usr/bin/rpmautospec /usr/bin/spectool ; do rpm -qf $$i || dnf install --setopt=install_weak_deps=False -y $$i ; done
 	mkdir -p $(outdir)/.sources
 	rpmautospec process-distgit $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
 	touch -r $(spec_dir)$(spec_file) $(outdir)/.sources/$(spec_out)
