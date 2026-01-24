@@ -42,6 +42,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - id: fedora-version
+        run: podman run --rm registry.fedoraproject.org/fedora:${{ matrix.fedora }} grep '^VERSION_ID=' /etc/os-release | tee -a $GITHUB_OUTPUT
+      - run: mkdir dependencies/rpms
+      - run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} --security-opt label=disable -v $(pwd)/dependencies/rpms:/root/rpmbuild/RPMS --build-arg=PACKAGE=rust-nusb -f dependencies/Dockerfile .
+      - uses: actions/upload-artifact@v6
+        with:
+          name: rust-nusb-rpms-${{ steps.fedora-version.outputs.VERSION_ID }}
+          path: dependencies/rpms/**/rust-nusb*.rpm
       - name: Build source container image
         run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} -t localhost/edgetx-builder -f .github/Dockerfile .
       - run: mkdir -p rpmbuild/SRPMS
