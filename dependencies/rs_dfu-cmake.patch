@@ -1,0 +1,14 @@
+--- a/cmake/rs_dfu-config.cmake	2025-08-24 14:54:38.000000000 +0200
++++ b/cmake/rs_dfu-config.cmake	2026-01-24 21:12:52.119788138 +0100
+@@ -22,9 +22,9 @@
+     set(_rs_dfu_static_ext "a")
+ endif()
+ 
+-set(RS_DFU_DIR "${CMAKE_CURRENT_LIST_DIR}/..")
++set(RS_DFU_DIR "/usr")
+ set(RS_DFU_INCLUDE_DIR "${RS_DFU_DIR}/include")
+-set(RS_DFU_LIB_DIR "${RS_DFU_DIR}/lib")
++set(RS_DFU_LIB_DIR "${RS_DFU_DIR}/lib64")
+ 
+ set(_rs_dfu_static_lib "${RS_DFU_LIB_DIR}/${_rs_dfu_lib_prefix}rs_dfu.${_rs_dfu_static_ext}")
+ 
