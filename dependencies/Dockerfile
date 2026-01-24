@@ -15,6 +15,8 @@ WORKDIR /root/rpmbuild/RPMS/SRPMS
 RUN rpm -qlp ${PACKAGE}-*.src.rpm
 RUN rpm -Uvh ${PACKAGE}-*.src.rpm
 RUN if [ -d /root/rpmbuild/RPMS/repodata ] ; then ( echo '[edgetx-build-dependencies]' ; echo 'baseurl=file:/root/rpmbuild/RPMS' ; echo gpgcheck=0 ) > /etc/yum.repos.d/edgetx-build-dependencies.repo ; fi
+# Workaround https://bugzilla.redhat.com/show_bug.cgi?id=2432550
+RUN sed -i 's/tsflags=.*/tsflags=/' /etc/dnf/dnf.conf
 RUN dnf builddep --setopt=install_weak_deps=False -y ~/rpmbuild/SPECS/${PACKAGE}-*.spec
 RUN rpmbuild -br ~/rpmbuild/SPECS/${PACKAGE}-*.spec || true
 RUN dnf builddep --setopt=install_weak_deps=False -y ~/rpmbuild/SRPMS/${PACKAGE}-*.buildreqs.nosrc.rpm
