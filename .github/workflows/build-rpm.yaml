@@ -46,7 +46,7 @@ jobs:
         run: podman build --from registry.fedoraproject.org/fedora:${{ matrix.fedora }} -t localhost/edgetx-builder -f .github/Dockerfile .
       - run: mkdir -p rpmbuild/SRPMS
       - name: Build the srpm
-        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c '( rpm -Uvh *.src.rpm && rpmbuild -bs ~/rpmbuild/SPECS/*.spec ) || ( cp *.src.rpm ~/rpmbuild/SRPMS/ && exit 1 )'
+        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild:Z --network=none localhost/edgetx-builder bash -c '( rpm -Uvh *.src.rpm && rpmbuild -bs ~/rpmbuild/SPECS/*.spec ) || ( cp *.src.rpm ~/rpmbuild/SRPMS/ && exit 1 )'
       - run: find rpmbuild/SRPMS
       - run: |
           srpm_path=$( find rpmbuild/SRPMS -type f )
@@ -59,7 +59,7 @@ jobs:
           path: ${{ env.srpm_path }}
         if: always()
       - name: Build the rpm
-        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild --network=none localhost/edgetx-builder bash -c 'rpm -Uvh ~/rpmbuild/SRPMS/*.src.rpm && rpmbuild -bb ~/rpmbuild/SPECS/*.spec'
+        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild:Z --network=none localhost/edgetx-builder bash -c 'rpm -Uvh ~/rpmbuild/SRPMS/*.src.rpm && rpmbuild -bb ~/rpmbuild/SPECS/*.spec'
       - run: find rpmbuild/RPMS
       - run: |
           rpm_path=$( find rpmbuild/RPMS -type f | grep -v debug )
