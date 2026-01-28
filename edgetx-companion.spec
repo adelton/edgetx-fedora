@@ -51,25 +51,13 @@ mkdir deps
 ( cd deps && tar xvzf %SOURCE15 && ln -sv googletest-* googletest )
 ( cd deps && tar xvzf %SOURCE16 && ln -sv maxLibQt-* maxLibQt )
 
-mkdir bin
-cat > bin/cmake <<'EOS'
-#!/bin/bash
-set -x
-%cmake "$@"
-EOS
-chmod a+x bin/cmake
-
 %build
-CMAKE_OPTS="-DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DINSTALL_GTEST=OFF -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=$(pwd)/deps/googletest -DFETCHCONTENT_SOURCE_DIR_MAXLIBQT=$(pwd)/deps/maxLibQt"
-# Build shared libraries for simulator
+CMAKE_OPTS=$( eval echo $( cat <<'EOS' | sed -e '1,\#%{__cmake}#d' -e '/ -S /d' -e '/ -B /d' -e 's/\\$//'
+%cmake
+EOS
+))
+CMAKE_OPTS+=" -DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DGVARS=YES -DLUA=YES -DHELI=YES -DMULTIMODULE=YES -DPPM_LIMITS_SYMETRICAL=YES -DAUTOSWITCH=YES -DAUTOSOURCE=YES -DPPM_CENTER_ADJUSTABLE=YES -DFLIGHT_MODES=YES -DOVERRIDE_CHANNEL_FUNCTION=YES -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DINSTALL_GTEST=OFF -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=$(pwd)/deps/googletest -DFETCHCONTENT_SOURCE_DIR_MAXLIBQT=$(pwd)/deps/maxLibQt"
 MAKEFLAGS="-O -j${RPM_BUILD_NCPUS}" tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}" "$CMAKE_OPTS" release
-# Clean slate? There is probaly nothing wrong reusing the configuration
-# left over from previous step, but be safe
-rm -f "$(pwd)/%{_vpath_builddir}/CMakeCache.txt" "$(pwd)/%{_vpath_builddir}/native/CMakeCache.txt"
-%cmake $CMAKE_OPTS -DPCB=X9D
-%make_build -C %{_vpath_builddir} native-configure
-%make_build -C %{_vpath_builddir} companion
-%make_build -C %{_vpath_builddir} simulator
 
 %install
 %{cmake_install}/native

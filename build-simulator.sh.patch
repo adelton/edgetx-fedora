@@ -1,35 +1,12 @@
 diff --git a/tools/build-companion.sh b/tools/build-companion.sh
 --- a/tools/build-companion.sh
 +++ b/tools/build-companion.sh
-@@ -7,64 +7,11 @@ set -x
- SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
- . "$SCRIPT_DIR/build-common.sh" 
+@@ -32,39 +32,11 @@ done
  
--if [ "$(uname)" = "Darwin" ]; then
--  num_cpus=$(sysctl -n hw.ncpu)
--  : "${JOBS:=$num_cpus}"
--else
--  JOBS=3
--fi
--
--while [ $# -gt 0 ]
--do
--  case "$1" in
--    --jobs=*)
--      JOBS="${1#*=}";;
--    -j*)
--      JOBS="${1#*j}";;
--    -*)
--      echo >&2 "usage: $0 [-j<jobs>|--jobs=<jobs>] SRCDIR OUTDIR"
--      exit 1;;
--    *)
--      break;;   # terminate while loop
--  esac
--  shift
--done
--
  SRCDIR=$1
  OUTDIR=$2
++mkdir -p "${OUTDIR}"
++cd "${OUTDIR}"
  
 -COMMON_OPTIONS="-DGVARS=YES -DHELI=YES -DLUA=YES -Wno-dev -DCMAKE_BUILD_TYPE=Release"
 -if [ "$(uname)" = "Darwin" ]; then
@@ -68,28 +45,14 @@ diff --git a/tools/build-companion.sh b/tools/build-companion.sh
  
  declare -a simulator_plugins=(x9lite x9lites
                                x7 x7access
-@@ -88,20 +35,9 @@ do
-         exit 1
-     fi
- 
--    rm -f CMakeCache.txt native/CMakeCache.txt
--    cmake ${BUILD_OPTIONS} "${SRCDIR}"
--    cmake --build . --target native-configure
--    cmake --build native -j"${JOBS}" --target libsimulator
-+    rm -f $OUTDIR/CMakeCache.txt $OUTDIR/native/CMakeCache.txt
-+    bin/cmake ${BUILD_OPTIONS} "${SRCDIR}"
-+    make -C "$OUTDIR" native-configure
-+    make -C "$OUTDIR" libsimulator
- done                              
- 
--cmake --build . --target native-configure
--if [ "$(uname)" = "Darwin" ]; then
--    cmake --build native -j"${JOBS}" --target package
--    cp native/*.dmg "${OUTDIR}"
--elif [ "$(uname)" = "Linux" ]; then
+@@ -99,8 +71,8 @@ if [ "$(uname)" = "Darwin" ]; then
+     cmake --build native -j"${JOBS}" --target package
+     cp native/*.dmg "${OUTDIR}"
+ elif [ "$(uname)" = "Linux" ]; then
 -    cmake --build native -j"${JOBS}" --target package
 -    cp native/*.AppImage "${OUTDIR}"
--else
--    cmake --build native --target installer
--    cp native/companion/*.exe "${OUTDIR}"
--fi
++    cmake --build native -j"${JOBS}" --target companion
++    cmake --build native -j"${JOBS}" --target simulator
+ else
+     cmake --build native --target installer
+     cp native/companion/*.exe "${OUTDIR}"
