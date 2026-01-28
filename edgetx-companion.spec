@@ -51,7 +51,6 @@ mkdir deps
 ( cd deps && tar xvzf %SOURCE15 && ln -sv googletest-* googletest )
 ( cd deps && tar xvzf %SOURCE16 && ln -sv maxLibQt-* maxLibQt )
 
-%set_build_flags
 mkdir bin
 cat > bin/cmake <<'EOS'
 #!/bin/bash
