@@ -28,7 +28,4 @@ srpm-pure: srpm-common
 	cd $(outdir)/.sources && rpmbuild -D '_srcrpmdir $(outdir)' -D '_sourcedir $(outdir)/.sources' -bs $(outdir)/.sources/$(spec_out)
 	rm -rf $(outdir)/.sources
 
-srpm: srpm-common
-	# Workaround https://github.com/fedora-copr/copr/issues/4088
-	cd $(outdir)/.sources && rpmbuild -D 'fedora 43' -D '_srcrpmdir $(outdir)' -D '_sourcedir $(outdir)/.sources' -bs $(outdir)/.sources/$(spec_out)
-	rm -rf $(outdir)/.sources
+srpm: srpm-pure
