@@ -18,9 +18,7 @@ Patch2: edgetx-desktop.patch
 Patch4: edgetx-disable-appimage.patch
 Patch5: edgetx-simulator-name.patch
 Patch6: build-simulator.sh.patch
-%if 0%{?fedora} >= 43
 Patch7: edgetx-miniz.patch
-%endif
 
 BuildRequires: cmake
 BuildRequires: make
