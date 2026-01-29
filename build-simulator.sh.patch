@@ -59,3 +59,12 @@ diff --git a/tools/build-companion.sh b/tools/build-companion.sh
  
  get_platform_config
  TOTAL=${#simulator_plugins[@]}
+@@ -245,7 +234,7 @@ for i in "${!simulator_plugins[@]}"; do
+     fi
+ 
+     error_status=0
+-    if ! build_plugin "$plugin"; then
++    if ! build_plugin "$plugin" true; then
+         FAILED_PLUGINS+=("$plugin")
+         error_status=1
+     fi
