@@ -54,7 +54,7 @@ jobs:
           path: ${{ env.srpm_path }}
         if: always()
       - name: Build the rpm
-        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild:Z --network=none -e CMAKE_OPTS='-DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF' localhost/edgetx-builder bash -c 'rpm -Uvh ~/rpmbuild/SRPMS/*.src.rpm && rpmbuild -bb ~/rpmbuild/SPECS/*.spec'
+        run: podman run --rm --name edgetx-builder -v $(pwd)/rpmbuild:/root/rpmbuild:Z --network=none -e CMAKE_OPTS='-DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF' -e RPM_BUILD_NCPUS=$(nproc --ignore 2) localhost/edgetx-builder bash -c 'rpm -Uvh ~/rpmbuild/SRPMS/*.src.rpm && rpmbuild -bb ~/rpmbuild/SPECS/*.spec'
       - run: find rpmbuild/RPMS
       - run: |
           rpm_path=$( find rpmbuild/RPMS -type f | grep -v debug )
