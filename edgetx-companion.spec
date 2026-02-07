@@ -3,10 +3,10 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.12.0
-Release: 0.rc2.1%{?dist}
+Release: 0.rc3.1%{?dist}
 License: GPLv2
 URL: https://edgetx.org/
-Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc2.tar.gz#/edgetx-%{version}.tar.gz
+Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc3.tar.gz#/edgetx-%{version}.tar.gz
 Source12: https://github.com/nothings/stb/archive/5c205738c191bcb0abc65c4febfa9bd25ff35234.tar.gz#/stb-5c205738.tar.gz
 Source14: https://github.com/EdgeTX/lvgl/archive/5f129c540ec43a4e5aebff9f77b3688b57a78063.tar.gz#/lvgl-5f129c54.tar.gz
 Source15: https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz#/googletest-1.14.0.tar.gz
@@ -42,7 +42,7 @@ settings, editing settings and running radio simulators.
 
 %global debug_package %{nil}
 %prep
-%autosetup -n edgetx-%{version}-rc2 -p1
+%autosetup -n edgetx-%{version}-rc3 -p1
 mkdir deps
 ( cd radio/src/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -sv stb-* stb )
 ( cd radio/src/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -sv lvgl-* lvgl )
@@ -102,6 +102,7 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}"
 %{_libdir}/%{name}/libedgetx-tx12mk2-simulator.so
 %{_libdir}/%{name}/libedgetx-tx15-simulator.so
 %{_libdir}/%{name}/libedgetx-tx16s-simulator.so
+%{_libdir}/%{name}/libedgetx-tx16smk3-simulator.so
 %{_libdir}/%{name}/libedgetx-v14-simulator.so
 %{_libdir}/%{name}/libedgetx-v16-simulator.so
 %{_libdir}/%{name}/libedgetx-x7-simulator.so
