@@ -46,6 +46,7 @@ settings, editing settings and running radio simulators.
 tar xvzf %SOURCE15 && ln -s googletest-* googletest
 ( cd companion/src && tar xvzf %SOURCE16 && ln -s maxLibQt-* maxLibQt )
 
+%global _cmake_generator "Unix Makefiles"
 %set_build_flags
 mkdir bin
 cat > bin/cmake <<'EOS'
