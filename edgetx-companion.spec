@@ -38,6 +38,7 @@ settings, editing settings and running radio simulators.
 ( cd radio/src/thirdparty/libopenui/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -s lvgl-* lvgl )
 ( cd companion/src/thirdparty && tar xvzf %SOURCE13 && rmdir yaml-cpp && ln -s yaml-cpp-* yaml-cpp && cd yaml-cpp && patch -p1 < %SOURCE15 )
 
+%global _cmake_generator "Unix Makefiles"
 %set_build_flags
 mkdir bin
 cat > bin/cmake <<'EOS'
