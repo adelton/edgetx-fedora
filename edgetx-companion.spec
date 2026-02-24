@@ -42,6 +42,7 @@ settings, editing settings and running radio simulators.
 mkdir -p %{_vpath_builddir}/radio/src
 cp %SOURCE1 %SOURCE2 %{_vpath_builddir}/radio/src/
 
+%global _cmake_generator "Unix Makefiles"
 %set_build_flags
 mkdir bin
 cat > bin/cmake <<'EOS'
