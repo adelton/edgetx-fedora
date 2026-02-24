@@ -52,7 +52,7 @@ mkdir deps
 ( cd deps && tar xvzf %SOURCE16 && ln -sv maxLibQt-* maxLibQt )
 
 %build
-CMAKE_OPTS=$( eval echo $( cat <<'EOS' | sed -e '1,\#%{__cmake}#d' -e '/ -S /d' -e '/ -B /d' -e 's/\\$//'
+CMAKE_OPTS=$( eval echo $( cat <<'EOS' | sed -e '1,\#%{__cmake}#d' -e '/ -S /d' -e '/ -B /d' -e '/-G Ninja/d' -e 's/\\$//'
 %cmake
 EOS
 ))
