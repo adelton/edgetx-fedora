@@ -39,7 +39,7 @@ jobs:
       matrix:
         fedora: ${{ fromJSON(needs.init.outputs.fedora ) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - id: fedora-version
@@ -71,7 +71,7 @@ jobs:
           echo "srpm_path=$srpm_path" >> $GITHUB_ENV
           echo "srpm_name=$( basename $srpm_path )" >> $GITHUB_ENV
         if: always()
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: ${{ env.srpm_name }}
           path: ${{ env.srpm_path }}
@@ -84,7 +84,7 @@ jobs:
           echo "rpm_path=$rpm_path" >> $GITHUB_ENV
           echo "rpm_name=$( basename $rpm_path )" >> $GITHUB_ENV
         if: always()
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: ${{ env.rpm_name }}
           path: ${{ env.rpm_path }}
