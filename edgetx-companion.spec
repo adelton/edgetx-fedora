@@ -3,10 +3,10 @@ Summary: EdgeTX Companion
 Name: edgetx-companion
 
 Version: 2.12.0
-Release: 0.rc4.1%{?dist}
+Release: %autorelease
 License: GPLv2
 URL: https://edgetx.org/
-Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}-rc4.tar.gz#/edgetx-%{version}.tar.gz
+Source0: https://github.com/EdgeTX/edgetx/archive/refs/tags/v%{version}.tar.gz#/edgetx-%{version}.tar.gz
 Source12: https://github.com/nothings/stb/archive/5c205738c191bcb0abc65c4febfa9bd25ff35234.tar.gz#/stb-5c205738.tar.gz
 Source14: https://github.com/EdgeTX/lvgl/archive/5f129c540ec43a4e5aebff9f77b3688b57a78063.tar.gz#/lvgl-5f129c54.tar.gz
 Source15: https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz#/googletest-1.14.0.tar.gz
@@ -42,21 +42,21 @@ settings, editing settings and running radio simulators.
 
 %global debug_package %{nil}
 %prep
-%autosetup -n edgetx-%{version}-rc4 -p1
+%autosetup -n edgetx-%{version} -p1
 mkdir deps
 ( cd radio/src/thirdparty && tar xvzf %SOURCE12 && rmdir stb && ln -sv stb-* stb )
 ( cd radio/src/thirdparty && tar xvzf %SOURCE14 && rmdir lvgl && ln -sv lvgl-* lvgl )
 ( cd radio/src/thirdparty && tar xvzf %SOURCE17 && rmdir uf2 && ln -sv uf2-* uf2 )
 ( cd deps && tar xvzf %SOURCE15 && ln -sv googletest-* googletest )
 ( cd deps && tar xvzf %SOURCE16 && ln -sv maxLibQt-* maxLibQt )
-( cd radio/src/targets/simu && rm -rf imgui && tar xvzf %SOURCE18 && ln -sv imgui-* imgui )
+( cd deps && tar xvzf %SOURCE18 && ln -sv imgui-* imgui )
 
 %build
 CMAKE_OPTS=$( eval echo $( cat <<'EOS' | sed -e '1,\#%{__cmake}#d' -e '/ -S /d' -e '/ -B /d' -e 's/\\$//'
 %cmake
 EOS
 ))
-export COMMON_OPTIONS="${CMAKE_OPTS} -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON -DINSTALL_GTEST=OFF -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=$(pwd)/deps/googletest -DFETCHCONTENT_SOURCE_DIR_MAXLIBQT=$(pwd)/deps/maxLibQt -DFETCHCONTENT_SOURCE_DIR_IMGUI=$(pwd)/radio/src/thirdparty"
+export COMMON_OPTIONS="${CMAKE_OPTS} -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON -DDEBUG=YES -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON -DINSTALL_GTEST=OFF -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=$(pwd)/deps/googletest -DFETCHCONTENT_SOURCE_DIR_MAXLIBQT=$(pwd)/deps/maxLibQt -DFETCHCONTENT_SOURCE_DIR_IMGUI=$(pwd)/deps/imgui"
 export EDGETX_VERSION_SUFFIX=%{release}
 export CMAKE_BUILD_PARALLEL_LEVEL=${RPM_BUILD_NCPUS}
 tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}"
