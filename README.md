@@ -16,8 +16,9 @@ rpms for contemporary Fedora versions are at
 https://copr.fedorainfracloud.org/coprs/adelton/edgetx-companion-2.12/
 
 Compatibility warning: any of the following radios
-(STM32F2, per hackmd.io/@edgetx/B12oQyQKye) are no longer supported
-with EdgeTX 2.12, use previous version (2.11, see below):
+(STM32F2, per [hackmd.io/@edgetx/B12oQyQKye](https://hackmd.io/@edgetx/B12oQyQKye))
+are no longer supported with EdgeTX 2.12,
+use previous version (2.11, see below):
 
 * BetaFPV: LR3Pro
 * FrSky: X7, X9D (the original Taranis), X9D+, X9Lite, X9Lite S, XLite, XLite S
