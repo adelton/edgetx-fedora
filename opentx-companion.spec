@@ -13,6 +13,7 @@ Source3: https://github.com/google/googletest/archive/refs/tags/release-1.8.1.ta
 Patch1: opentx-cmake-2.2.1.patch
 Patch2: opentx-desktop-2.2.0.patch
 Patch3: opentx-OpenRcBootloader-local.patch
+Patch4: opentx-cmake-fedora-44.patch
 
 BuildRequires: cmake
 BuildRequires: make

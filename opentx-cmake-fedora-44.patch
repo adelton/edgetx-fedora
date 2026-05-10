@@ -1,0 +1,46 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f63f1bfb87..60a961bdf3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -12,9 +12,9 @@ set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}${VERSION_SUFFI
+ set(SDCARD_REVISION "0039")
+ set(SDCARD_VERSION  ${VERSION_MAJOR}.${VERSION_MINOR}V${SDCARD_REVISION})
+ 
+-cmake_minimum_required(VERSION 2.8)
++cmake_minimum_required(VERSION 3.5)
+ cmake_policy(SET CMP0020 NEW)
+-cmake_policy(SET CMP0023 OLD)
++cmake_policy(SET CMP0023 NEW)
+ if(POLICY CMP0042)
+   cmake_policy(SET CMP0042 NEW)
+ endif()
+diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
+index 33931bf753..698c5941c7 100644
+--- a/companion/src/CMakeLists.txt
++++ b/companion/src/CMakeLists.txt
+@@ -371,13 +371,10 @@ else()
+   string(TOLOWER ${PCB} FLAVOUR)
+ endif()
+ if(POLICY CMP0026)
+-  cmake_policy(SET CMP0026 OLD)  # https://cmake.org/cmake/help/v3.0/policy/CMP0026.html
++  cmake_policy(SET CMP0026 NEW)  # https://cmake.org/cmake/help/v3.0/policy/CMP0026.html
+ endif()
+ 
+-if(SIMU_TARGET)
+-  get_property(current_plugin TARGET opentx-${FLAVOUR}-simulator PROPERTY LOCATION)
+-  list(APPEND simulator_plugins "${current_plugin}")
+-endif()
++file(GLOB simulator_plugins "${CMAKE_BINARY_DIR}/*opentx-*simulator${CMAKE_SHARED_LIBRARY_SUFFIX}")
+ 
+ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+   message(STATUS "install " ${CMAKE_BINARY_DIR} " to " ${CMAKE_INSTALL_PREFIX}/bin)
+diff --git a/companion/src/thirdparty/maxlibqt/src/widgets/CMakeLists.txt b/companion/src/thirdparty/maxlibqt/src/widgets/CMakeLists.txt
+index 1f7c606b82..b0d6fd846c 100644
+--- a/companion/src/thirdparty/maxlibqt/src/widgets/CMakeLists.txt
++++ b/companion/src/thirdparty/maxlibqt/src/widgets/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.5)
+ cmake_policy(SET CMP0020 NEW)
+ set(CMAKE_CXX_STANDARD 11)
+ if (CMAKE_VERSION VERSION_LESS "3.1" AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
