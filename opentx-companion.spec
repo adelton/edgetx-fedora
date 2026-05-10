@@ -18,7 +18,7 @@ Patch4: opentx-cmake-fedora-44.patch
 BuildRequires: cmake
 BuildRequires: make
 BuildRequires: gcc-c++
-BuildRequires: qt5-qttools-devel, qt5-qtsvg-devel, qt5-qtmultimedia-devel
+BuildRequires: qt5-qtbase-devel, qt5-qttools-devel, qt5-qtsvg-devel, qt5-qtmultimedia-devel
 BuildRequires: fox-devel
 BuildRequires: SDL-devel
 BuildRequires: arm-none-eabi-gcc-cs-c++
