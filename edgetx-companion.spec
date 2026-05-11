@@ -19,6 +19,7 @@ Patch5: build-simulator.sh.patch
 %if 0%{?fedora} >= 43
 Patch7: edgetx-miniz.patch
 %endif
+Patch6: edgetx-cmake-fedora-44.patch
 
 BuildRequires: cmake
 BuildRequires: make

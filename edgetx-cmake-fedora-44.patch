@@ -1,0 +1,29 @@
+diff --git a/cmake/GenericDefinitions.cmake b/cmake/GenericDefinitions.cmake
+index d1924d40b5..2b549469a4 100644
+--- a/cmake/GenericDefinitions.cmake
++++ b/cmake/GenericDefinitions.cmake
+@@ -2,10 +2,6 @@
+ # https://cmake.org/cmake/help/latest/policy/CMP0020.html
+ cmake_policy(SET CMP0020 NEW)
+ 
+-# Allow keyword and plain target_link_libraries() signatures to be mixed
+-# https://cmake.org/cmake/help/latest/policy/CMP0023.html
+-cmake_policy(SET CMP0023 OLD)
+-
+ # Use @rpath in a target's install name on MacOS X for locating shared libraries
+ # https://cmake.org/cmake/help/latest/policy/CMP0042.html
+ if(POLICY CMP0042)
+diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
+index 2c5e226daa..69cd622b4d 100644
+--- a/companion/src/CMakeLists.txt
++++ b/companion/src/CMakeLists.txt
+@@ -353,9 +353,6 @@ elseif(PCB STREQUAL PL18)
+ else()
+   string(TOLOWER ${PCB} FLAVOUR)
+ endif()
+-if(POLICY CMP0026)
+-  cmake_policy(SET CMP0026 OLD)  # https://cmake.org/cmake/help/v3.0/policy/CMP0026.html
+-endif()
+ 
+ include(FindDfuutil)
+ include(FindLibusb1)
