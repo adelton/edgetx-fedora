@@ -16,6 +16,7 @@ Patch1: edgetx-cmake.patch
 Patch2: edgetx-desktop.patch
 Patch3: edgetx-OpenRcBootloader-local.patch
 Patch4: edgetx-disable-appimage.patch
+Patch6: edgetx-cmake-fedora-44.patch
 
 BuildRequires: cmake
 BuildRequires: make
