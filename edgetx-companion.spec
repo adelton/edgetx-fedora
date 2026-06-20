@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.12.1
+Version: 2.12.2
 Release: %autorelease
 License: GPLv2
 URL: https://edgetx.org/
@@ -94,6 +94,7 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}"
 %{_libdir}/%{name}/libedgetx-t18-simulator.so
 %{_libdir}/%{name}/libedgetx-t20-simulator.so
 %{_libdir}/%{name}/libedgetx-t20v2-simulator.so
+%{_libdir}/%{name}/libedgetx-t22-simulator.so
 %{_libdir}/%{name}/libedgetx-tlite-simulator.so
 %{_libdir}/%{name}/libedgetx-tpro-simulator.so
 %{_libdir}/%{name}/libedgetx-tpros-simulator.so
