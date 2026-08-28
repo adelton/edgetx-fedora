@@ -1,9 +1,9 @@
 diff --git a/companion/src/CMakeLists.txt b/companion/src/CMakeLists.txt
 --- a/companion/src/CMakeLists.txt
 +++ b/companion/src/CMakeLists.txt
-@@ -569,56 +569,6 @@ elseif(APPLE)
-       file(RENAME \"\${app_dir}\" \"\${CMAKE_INSTALL_PREFIX}/${COMPANION_OSX_APP_BUNDLE_NAME}.app\")
-   " COMPONENT Runtime)
+@@ -724,56 +717,6 @@ elseif(APPLE)
+     install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/bundle_verify.cmake" COMPONENT Runtime)
+   endif()
  
 -else()
 -  set(LINUXDEPLOY_APPIMAGE "linuxdeploy-x86_64.AppImage")
