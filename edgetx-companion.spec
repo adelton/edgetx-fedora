@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.11.7
+Version: 2.11.8
 Release: %autorelease
 License: GPLv2
 URL: https://edgetx.org/
