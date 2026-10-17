@@ -2,7 +2,7 @@
 Summary: EdgeTX Companion
 Name: edgetx-companion
 
-Version: 2.12.4
+Version: 2.12.5
 Release: %autorelease
 License: GPLv2
 URL: https://edgetx.org/
@@ -77,6 +77,7 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}"
 %{_libdir}/%{name}/libedgetx-gx12-simulator.so
 %{_libdir}/%{name}/libedgetx-gx15-simulator.so
 %{_libdir}/%{name}/libedgetx-f16-simulator.so
+%{_libdir}/%{name}/libedgetx-h17-simulator.so
 %{_libdir}/%{name}/libedgetx-lr3pro-simulator.so
 %{_libdir}/%{name}/libedgetx-mt12-simulator.so
 %{_libdir}/%{name}/libedgetx-nv14-simulator.so
@@ -92,8 +93,10 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}"
 %{_libdir}/%{name}/libedgetx-t14-simulator.so
 %{_libdir}/%{name}/libedgetx-t15-simulator.so
 %{_libdir}/%{name}/libedgetx-t15pro-simulator.so
+%{_libdir}/%{name}/libedgetx-t15h7-simulator.so
 %{_libdir}/%{name}/libedgetx-t16-simulator.so
 %{_libdir}/%{name}/libedgetx-t18-simulator.so
+%{_libdir}/%{name}/libedgetx-t18h7-simulator.so
 %{_libdir}/%{name}/libedgetx-t20-simulator.so
 %{_libdir}/%{name}/libedgetx-t20v2-simulator.so
 %{_libdir}/%{name}/libedgetx-t22-simulator.so
@@ -109,6 +112,7 @@ tools/build-companion.sh "$(pwd)" "$(pwd)/%{_vpath_builddir}"
 %{_libdir}/%{name}/libedgetx-v12-simulator.so
 %{_libdir}/%{name}/libedgetx-v14-simulator.so
 %{_libdir}/%{name}/libedgetx-v14lcd-simulator.so
+%{_libdir}/%{name}/libedgetx-v15-simulator.so
 %{_libdir}/%{name}/libedgetx-v16-simulator.so
 %{_libdir}/%{name}/libedgetx-x7-simulator.so
 %{_libdir}/%{name}/libedgetx-x7access-simulator.so
